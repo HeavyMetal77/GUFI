@@ -7,11 +7,14 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="black_light">#858585</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="white">#FFFFFF</color>
     <color name="colorAccent">#4089e4</color>
     <color name="color_main">#263f5e</color>
     <color name="color_grey">#fafafa</color>
     <color name="color_background_main">#f5f9fe</color>
     <color name="color_line">#cecece</color>
+    <color name="color_line_vertical">#E0E0E0</color>
     <color name="color_line_menu">#7d8c9e</color>
+    <color name="color_text_card_view">#263F5E</color>
+    <color name="color_text_card_view_payment">#323232</color>
 </resources>

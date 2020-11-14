@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="16dp"
+    android:background="@color/white">
+
+<com.google.android.material.card.MaterialCardView
+    android:id="@+id/cv"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/style_card_view"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        >
+
+        <ImageView
+            android:id="@+id/person_photo"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="11dp"
+            android:contentDescription="@string/image_view_description_person_photo"
+            app:srcCompat="@android:drawable/btn_star_big_on" />
+
+        <TextView
+            android:id="@+id/current_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_toEndOf="@+id/person_photo"
+            android:textColor="@color/color_text_card_view"
+            android:textSize="18sp"
+            tools:text="Category" />
+
+        <TextView
+            android:id="@+id/person_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/current_category"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="8dp"
+            android:layout_toStartOf="@+id/line_vertical_separator"
+            android:layout_toEndOf="@+id/person_photo"
+            android:textColor="@color/color_text_card_view"
+            tools:text="Ангелина Перепелинова" />
+
+        <View
+            android:id="@+id/line_vertical_separator"
+            android:layout_width="1dp"
+            android:layout_height="22dp"
+            android:layout_below="@+id/current_category"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="120dp"
+            android:background="@color/color_line_vertical" />
+
+        <TextView
+            android:id="@+id/person_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/current_category"
+            android:layout_alignBottom="@+id/line_vertical_separator"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="0dp"
+            android:textColor="@color/color_text_card_view"
+            android:textSize="16sp"
+            tools:text="067-123-45-67" />
+
+        <View
+            android:id="@+id/line_horizontal_separator"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/person_name"
+            android:layout_alignBottom="@+id/person_name"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:background="@color/color_line" />
+
+        <ImageView
+            android:id="@+id/imageViewCard"
+            android:layout_width="25dp"
+            android:layout_height="20dp"
+            android:layout_below="@+id/line_horizontal_separator"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:contentDescription="@string/description_bank_card"
+            app:srcCompat="@drawable/card" />
+
+        <TextView
+            android:id="@+id/textViewPayment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/line_horizontal_separator"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="38dp"
+            android:layout_toStartOf="@+id/imageViewClock"
+            android:layout_toEndOf="@+id/imageViewCard"
+            android:textColor="@color/color_text_card_view_payment"
+            android:textSize="14sp"
+            tools:text="Полная оплата" />
+
+        <ImageView
+            android:id="@+id/imageViewClock"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_alignTop="@+id/imageViewCard"
+            android:layout_alignBottom="@+id/textViewBusinessHours"
+            android:layout_marginEnd="6dp"
+            android:layout_toStartOf="@+id/textViewBusinessHours"
+            app:srcCompat="@drawable/clock"
+            android:contentDescription="@string/description_item_clock" />
+
+        <TextView
+            android:id="@+id/textViewBusinessHours"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/line_horizontal_separator"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="10dp"
+            tools:text="С 08:30 до 20:00 в выходные"
+            android:textSize="14sp"
+            android:textColor="@color/color_text_card_view_payment"
+            />
+
+
+    </RelativeLayout>
+</com.google.android.material.card.MaterialCardView>
+</LinearLayout>

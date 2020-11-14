@@ -22,6 +22,13 @@
     <string name="label_menu_2">я исполнитель</string>
     <string name="label_menu_3">я модель</string>
     <string name="label_menu_4">я заказчик</string>
+    <string name="image_description_icon_create">Иконка создания нового мастера</string>
+    <string name="image_description_icon_go">Иконка перехода в каталог</string>
+    <string name="label_masters">Мастера</string>
+    <string name="label_studios">Студии</string>
+    <string name="image_view_description_person_photo">Фотография мастера или логотип студии</string>
+    <string name="description_item_clock">Логотип часов</string>
+    <string name="description_bank_card">Логотип банковской карты</string>
 
     <string-array name="faq_text_header_detail">
         <item>Для специалистов и профессионалов своего дела</item>
