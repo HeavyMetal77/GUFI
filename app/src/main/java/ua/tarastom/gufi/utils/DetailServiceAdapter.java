@@ -22,9 +22,17 @@ public class DetailServiceAdapter extends RecyclerView.Adapter<DetailServiceAdap
     public DetailServiceAdapter(List<ServiceInterface> serviceItem) {
         this.serviceItem = serviceItem;
         notifyDataSetChanged();
-
     }
 
+    public void removeItem(int position) {
+        serviceItem.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public void restoreItem(ServiceInterface item, int position) {
+        serviceItem.add(position, item);
+        notifyItemInserted(position);
+    }
 
     public void setServiceItems(List<ServiceInterface> serviceItem) {
         this.serviceItem = serviceItem;
