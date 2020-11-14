@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,6 +58,21 @@ public class ServiceCatalogActivity extends AppCompatActivity {
         serviceAdapter3.setServiceItems(getListService());
         serviceAdapter3.setScreenWidth(getScreenWidth());
         recyclerview_all_services.setAdapter(serviceAdapter3);
+
+        BottomNavigationView bottomNavigationView = new BottomNavigationView(this);
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.menu_page_1:
+                    break;
+                case R.id.menu_page_2:
+                    break;
+                case R.id.menu_page_3:
+                    break;
+                case R.id.menu_page_4:
+                    break;
+            }
+            return false;
+        });
 
     }
 

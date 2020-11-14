@@ -13,4 +13,5 @@
     <color name="color_grey">#fafafa</color>
     <color name="color_background_main">#f5f9fe</color>
     <color name="color_line">#cecece</color>
+    <color name="color_line_menu">#7d8c9e</color>
 </resources>

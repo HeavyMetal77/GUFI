@@ -18,6 +18,10 @@
     <string name="label_favorite_studios">Студии</string>
     <string name="label_favorite_masters">Мастера</string>
     <string name="label_all_services">Все услуги</string>
+    <string name="label_menu_1">услуги</string>
+    <string name="label_menu_2">я исполнитель</string>
+    <string name="label_menu_3">я модель</string>
+    <string name="label_menu_4">я заказчик</string>
 
     <string-array name="faq_text_header_detail">
         <item>Для специалистов и профессионалов своего дела</item>
