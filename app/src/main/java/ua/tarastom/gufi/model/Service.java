@@ -3,7 +3,7 @@ package ua.tarastom.gufi.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Service {
+public class Service{
     private String mainNameService;
     private List<ServiceItem> serviceItemArrayList;
 

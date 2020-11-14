@@ -1,13 +1,17 @@
 package ua.tarastom.gufi.model;
 
+import android.widget.ImageView;
+
 public abstract class ServiceItem {
+    private String category;
     private String nameServiceItem;
     private String numberPhone;
-    private String imgProfilePicPath;
+    private ImageView imgProfilePicPath;
     private String payment;
     private String businessHours;
 
-    public ServiceItem(String nameServiceItem, String numberPhone, String imgProfilePicPath, String payment, String businessHours) {
+    public ServiceItem(String category, String nameServiceItem, String numberPhone, ImageView imgProfilePicPath, String payment, String businessHours) {
+        this.category = category;
         this.nameServiceItem = nameServiceItem;
         this.numberPhone = numberPhone;
         this.imgProfilePicPath = imgProfilePicPath;
@@ -31,11 +35,11 @@ public abstract class ServiceItem {
         this.numberPhone = numberPhone;
     }
 
-    public String getImgProfilePic() {
+    public ImageView getImgProfilePic() {
         return imgProfilePicPath;
     }
 
-    public void setImgProfilePic(String imgProfilePic) {
+    public void setImgProfilePic(ImageView imgProfilePic) {
         this.imgProfilePicPath = imgProfilePic;
     }
 
@@ -53,5 +57,13 @@ public abstract class ServiceItem {
 
     public void setBusinessHours(String businessHours) {
         this.businessHours = businessHours;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }

@@ -1,67 +1,40 @@
 package ua.tarastom.gufi.model;
 
-public class Master extends ServiceItem{
-    private String nameMaster;
-    private String surNameMaster;
-    private String numberPhoneMaster;
-    private String imgProfilePicPath;
-    private String payment;
-    private String businessHours;
+import android.widget.ImageView;
 
-    public Master(String nameServiceItem, String numberPhone, String imgProfilePicPath, String payment, String businessHours) {
-        super(nameServiceItem, numberPhone, imgProfilePicPath, payment, businessHours);
+public class Master extends ServiceItem implements ServiceInterface{
+
+
+    public Master(String category, String nameServiceItem, String numberPhone, ImageView imgProfilePicPath, String payment, String businessHours) {
+        super(category, nameServiceItem, numberPhone, imgProfilePicPath, payment, businessHours);
     }
 
-    public Master(String nameServiceItem, String numberPhone, String imgProfilePicPath, String payment, String businessHours, String surNameMaster) {
-        super(nameServiceItem, numberPhone, imgProfilePicPath, payment, businessHours);
-        this.surNameMaster = surNameMaster;
+    @Override
+    public String getTypeService() {
+        return "Мастер";
     }
 
-    public String getNameMaster() {
-        return nameMaster;
+    @Override
+    public String getName() {
+        return super.getNameServiceItem();
     }
 
-    public void setNameMaster(String nameMaster) {
-        this.nameMaster = nameMaster;
+    @Override
+    public String getNumber() {
+        return super.getNumberPhone();
     }
 
-    public String getSurNameMaster() {
-        return surNameMaster;
-    }
-
-    public void setSurNameMaster(String surNameMaster) {
-        this.surNameMaster = surNameMaster;
-    }
-
-    public String getNumberPhoneMaster() {
-        return numberPhoneMaster;
-    }
-
-    public void setNumberPhoneMaster(String numberPhoneMaster) {
-        this.numberPhoneMaster = numberPhoneMaster;
-    }
-
-    public String getImgProfilePic() {
-        return imgProfilePicPath;
-    }
-
-    public void setImgProfilePic(String imgProfilePicPath) {
-        this.imgProfilePicPath = imgProfilePicPath;
+    @Override
+    public ImageView getImg() {
+        return super.getImgProfilePic();
     }
 
     public String getPayment() {
-        return payment;
-    }
-
-    public void setPayment(String payment) {
-        this.payment = payment;
+        return super.getPayment();
     }
 
     public String getBusinessHours() {
-        return businessHours;
+        return super.getBusinessHours();
     }
 
-    public void setBusinessHours(String businessHours) {
-        this.businessHours = businessHours;
-    }
 }
