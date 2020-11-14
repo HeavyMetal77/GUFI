@@ -1,0 +1,52 @@
+<resources>
+    <string name="app_name">GUFI</string>
+    <string name="background_loading_description">Загрузочный фон</string>
+    <string name="name_app_abbreviation">Г.У.Ф.И</string>
+    <string name="name_app_detail">Группа услуг и фактических исполнителей</string>
+    <!--    <string name="faq1_text_header_detail">Для специалистов и профессионалов своего дела</string>-->
+    <!--    <string name="faq2_text_header_detail">Для потребителей</string>-->
+    <!--    <string name="faq3_text_header_detail">Достоинства и преимущества работы через приложение</string>-->
+    <string name="background_faq_description">Фоновый рисунок раздела F.A.Q.</string>
+    <string name="button_start">Начать</string>
+    <string name="label_service_catalog">Каталог услуг</string>
+    <string name="label_city">Одесса</string>
+    <string name="image_description_icon_profile">Иконка профиля</string>
+    <string name="image_description_icon_search">Поиск</string>
+    <string name="description_icon_favorite">Иконка избранного</string>
+    <string name="label_favorite">Избранное</string>
+    <string name="label_favorite_all">Все</string>
+    <string name="label_favorite_studios">Студии</string>
+    <string name="label_favorite_masters">Мастера</string>
+    <string name="label_all_services">Все услуги</string>
+
+    <string-array name="faq_text_header_detail">
+        <item>Для специалистов и профессионалов своего дела</item>
+        <item>Для потребителей</item>
+        <item>Достоинства и преимущества работы через приложение</item>
+    </string-array>
+
+    <string-array name="faq1_description_text">
+        <item>Самостоятельно управляете своим временем, местом, объемом и стоимостью работы.</item>
+        <item>Имеете постоянный доступ к нескончаемой базе клиентов.</item>
+        <item>Работаете на себя и на свой рейтинг.</item>
+        <item>Помогаете тем, кто ждет Вашей помощи: профессионально, качественно и современно.</item>
+    </string-array>
+
+    <string-array name="faq2_description_text">
+        <item>Максимально решение проблемы/задачи/запроса:</item>
+        <item>Оперативность: находите специалистов в шаговой доступности от Вас.</item>
+        <item>Качество: выбираете, опираясь на реальные отзывы.</item>
+        <item>На любой кошелек: узнаете стоимость на предварительном этапе, общаясь со специалистами.</item>
+        <item>Вам оказывают помощь те, кто действительно хотят и могут помочь.</item>
+    </string-array>
+
+    <string-array name="faq3_description_text">
+        <item>Встроенные карты: геолокация заказчиков и специалистов в формате "здесь и сейчас".</item>
+        <item>Расписание: режим работы специалистов.</item>
+        <item>Рейтинг: выбор специалиста на основе информации о качестве оказываемых услуг.</item>
+        <item>Комуникации: связь специалиста и клиента в режиме онлайн.</item>
+        <item>Алгоритм: последовательное и быстрое оформление заявок.</item>
+    </string-array>
+
+
+</resources>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_item_service"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/color_background_main">
+
+    <Button
+        android:id="@+id/button_service"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        tools:text="Button"
+        android:paddingStart="1dp"
+        android:paddingEnd="1dp"
+        android:textColor="@color/black"
+        android:textAllCaps="false"
+        android:background="@drawable/style_button_service"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+
+    <ImageView
+        android:id="@+id/imageViewIconHeart"
+        android:layout_width="25dp"
+        android:layout_height="28dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="8dp"
+        android:elevation="2dp"
+        app:srcCompat="@drawable/heart_icon_1"
+        app:layout_constraintTop_toTopOf="@+id/button_service"
+        app:layout_constraintEnd_toEndOf="@+id/button_service"
+        android:contentDescription="@string/description_icon_favorite" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
