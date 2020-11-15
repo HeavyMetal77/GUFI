@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.22" />
+        app:layout_constraintGuide_percent="0.19" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_catalog_top"
@@ -28,8 +28,8 @@
             android:id="@+id/imageViewStarsProfile"
             android:layout_width="80dp"
             android:layout_height="16dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="45dp"
+            android:layout_marginTop="9dp"
+            android:layout_marginEnd="14dp"
             android:contentDescription="@string/description_stars_profile"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageViewIconProfile"
@@ -40,8 +40,9 @@
             android:layout_width="13dp"
             android:layout_height="17dp"
             android:layout_marginStart="36dp"
-            android:layout_marginTop="49dp"
+            android:layout_marginTop="21dp"
             android:layout_marginEnd="10dp"
+            android:onClick="backToDetailService"
             android:contentDescription="@string/image_description_icon_go"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -52,10 +53,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="13dp"
-            android:layout_marginTop="45dp"
+            android:layout_marginTop="16dp"
             android:text="@string/label_profile"
             android:textColor="@color/white"
             android:textSize="22sp"
+            android:onClick="backToDetailService"
             app:layout_constraintStart_toEndOf="@+id/imageViewArrow"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -63,8 +65,8 @@
             android:id="@+id/imageViewIconProfile"
             android:layout_width="92dp"
             android:layout_height="92dp"
-            android:layout_marginTop="48dp"
-            android:layout_marginEnd="38dp"
+            android:layout_marginTop="9dp"
+            android:layout_marginEnd="14dp"
             android:contentDescription="@string/image_description_big_profile"
             android:elevation="0dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -75,8 +77,8 @@
             android:id="@+id/imageViewMaskIconProfile"
             android:layout_width="92dp"
             android:layout_height="92dp"
-            android:layout_marginTop="48dp"
-            android:layout_marginEnd="38dp"
+            android:layout_marginTop="9dp"
+            android:layout_marginEnd="14dp"
             android:contentDescription="@string/image_description_big_profile"
             android:elevation="1dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -88,7 +90,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="36dp"
-            android:layout_marginTop="91dp"
+            android:layout_marginTop="62dp"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -99,7 +101,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="36dp"
-            android:layout_marginTop="118dp"
+            android:layout_marginTop="89dp"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -111,7 +113,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="36dp"
-            android:layout_marginTop="145dp"
+            android:layout_marginTop="116dp"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -124,7 +126,7 @@
             android:layout_width="10dp"
             android:layout_height="10dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="95dp"
+            android:layout_marginTop="66dp"
             android:contentDescription="@string/description_icon_phone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -135,7 +137,7 @@
             android:layout_width="10dp"
             android:layout_height="10dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="120dp"
+            android:layout_marginTop="97dp"
             android:contentDescription="@string/description_icon_man"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -146,7 +148,7 @@
             android:layout_width="10dp"
             android:layout_height="10dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="149dp"
+            android:layout_marginTop="120dp"
             android:contentDescription="@string/description_icon_symbol"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -157,7 +159,6 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="103dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -516,6 +517,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="16dp"
+                    android:onClick="editProfile"
                     android:text="@string/label_edit_profile"
                     android:textColor="@color/color_text_card_view_payment"
                     android:textSize="16sp" />
@@ -593,6 +595,7 @@
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="18dp"
                 android:layout_marginEnd="5dp"
+                android:layout_marginBottom="65dp"
                 android:background="@color/color_line" />
 
         </LinearLayout>
@@ -603,29 +606,5 @@
 
     </ScrollView>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottom_navigation"
-            android:layout_width="match_parent"
-            android:layout_height="103dp"
-            android:background="@drawable/bottom_navigation_background"
-            app:menu="@menu/bottom_menu" />
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="8.4dp"
-        android:layout_marginStart="52dp"
-        android:layout_marginEnd="52dp"
-        android:layout_marginBottom="14dp"
-        android:background="@drawable/line_menu"
-        android:elevation="3dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

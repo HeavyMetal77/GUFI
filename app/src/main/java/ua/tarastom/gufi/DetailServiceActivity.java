@@ -20,9 +20,7 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.ArrayList;
 import java.util.List;
 
-import ua.tarastom.gufi.model.Master;
-import ua.tarastom.gufi.model.ServiceInterface;
-import ua.tarastom.gufi.model.Studio;
+import ua.tarastom.gufi.model.Service;
 import ua.tarastom.gufi.utils.DetailServiceAdapter;
 import ua.tarastom.gufi.utils.SwipeToDeleteCallback;
 
@@ -44,8 +42,8 @@ public class DetailServiceActivity extends AppCompatActivity {
         //получаю список всех студий и мастеров
         textViewLabelStudios = findViewById(R.id.textViewLabelStudios);
         textViewLabelStudios.setOnClickListener(view -> {
-            List<ServiceInterface> listMasters = getMastersOrStudios(getAllServices(), mainNameService, "Студия");
-            setRecyclerview_detail_service(listMasters);
+            List<Service> listMasters = getMastersOrStudios(getAllServices(), mainNameService, "Студия");
+            setRecyclerview_detail_service(listMasters, mainNameService);
             textViewLabelStudios.setTypeface(Typeface.DEFAULT_BOLD);
             textViewLabelStudios.setTextSize(16);
             textViewLabelStudios.setTextColor(ContextCompat.getColor(DetailServiceActivity.this, R.color.black));
@@ -56,8 +54,8 @@ public class DetailServiceActivity extends AppCompatActivity {
         });
         textViewLabelMasters = findViewById(R.id.textViewLabelMasters);
         textViewLabelMasters.setOnClickListener(view -> {
-            List<ServiceInterface> listStudios = getMastersOrStudios(getAllServices(), mainNameService, "Мастер");
-            setRecyclerview_detail_service(listStudios);
+            List<Service> listStudios = getMastersOrStudios(getAllServices(), mainNameService, "Мастер");
+            setRecyclerview_detail_service(listStudios, mainNameService);
             textViewLabelMasters.setTypeface(Typeface.DEFAULT_BOLD);
             textViewLabelMasters.setTextSize(16);
             textViewLabelMasters.setTextColor(ContextCompat.getColor(DetailServiceActivity.this, R.color.black));
@@ -74,7 +72,7 @@ public class DetailServiceActivity extends AppCompatActivity {
             finish();
         });
 
-        setRecyclerview_detail_service(getMastersOrStudios(getAllServices(), mainNameService, "Мастер"));
+        setRecyclerview_detail_service(getMastersOrStudios(getAllServices(), mainNameService, "Мастер"), mainNameService);
     }
 
     private void enableSwipeToDeleteAndUndo() {
@@ -83,7 +81,7 @@ public class DetailServiceActivity extends AppCompatActivity {
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
                 ConstraintLayout coordinatorLayout = viewHolder.itemView.findViewById(R.id.coordinatorLayout);
                 final int position = viewHolder.getAdapterPosition();
-                final ServiceInterface item = adapter.getServiceItems().get(position);
+                final Service item = adapter.getServiceItems().get(position);
                 adapter.removeItem(position);
                 Snackbar snackbar = Snackbar.make(coordinatorLayout, "Объект удален из списка.", Snackbar.LENGTH_LONG);
                 snackbar.setAction("ОТМЕНИТЬ УДАЛЕНИЕ", view -> {
@@ -98,12 +96,21 @@ public class DetailServiceActivity extends AppCompatActivity {
         itemTouchhelper.attachToRecyclerView(recyclerview_detail_service);
     }
 
-    private void setRecyclerview_detail_service(List<ServiceInterface> services) {
+    private void setRecyclerview_detail_service(List<Service> services, String mainNameService) {
         recyclerview_detail_service = findViewById(R.id.recyclerview_detail_service);
         adapter = new DetailServiceAdapter(services);
         adapter.setServiceItems(services);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         recyclerview_detail_service.setLayoutManager(layoutManager);
+
+        adapter.setOnProfileClickListener(position -> {
+            Intent intent = new Intent(DetailServiceActivity.this, ProfileActivity.class);
+            Service service = adapter.getServiceItems().get(position);
+            intent.putExtra("nameServiceItem", service.getName());
+            intent.putExtra("mainNameService", mainNameService);
+            startActivity(intent);
+        });
+
         recyclerview_detail_service.setAdapter(adapter);
 //        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerview_detail_service.getContext(),
 //                layoutManager.getOrientation());
@@ -112,40 +119,30 @@ public class DetailServiceActivity extends AppCompatActivity {
     }
 
 
-    private List<ServiceInterface> getAllServices() {
+    private List<Service> getAllServices() {
         //TODO реализовать получение списка с БД
 
-        List<ServiceInterface> allServices = new ArrayList<>();
-        allServices.add(new Master("Макияж", "Петренко Петр1", "067-985-24-86", null, "Полная оплата", "С 08:00 до 16:00 в будни"));
-        allServices.add(new Master("Маникюр, педикюр", "Петренко Петр2", "067-985-24-86", null, "Полная оплата", "С 08:00 до 16:00 в будни"));
-        allServices.add(new Master("Маникюр, педикюр", "Петренко Петр3", "067-985-24-86", null, "Полная оплата", "С 08:00 до 16:00 в будни"));
-        allServices.add(new Master("Макияж", "Петренко Петр4", "067-985-24-86", null, "Полная оплата", "С 08:00 до 16:00 в будни"));
-        allServices.add(new Master("Макияж", "Петренко Петр5", "067-985-24-86", null, "Полная оплата", "С 08:00 до 16:00 в будни"));
-        allServices.add(new Master("Макияж", "Петренко Петр6", "067-985-24-86", null, "Полная оплата", "С 08:00 до 16:00 в будни"));
-        allServices.add(new Master("Макияж", "Петренко Петр7", "067-985-24-86", null, "Полная оплата", "С 08:00 до 16:00 в будни"));
-        allServices.add(new Master("Маникюр, педикюр", "Петренко Петр8", "067-985-24-86", null, "Полная оплата", "С 08:00 до 16:00 в будни"));
-        allServices.add(new Master("Макияж", "Петренко Петр9", "067-985-24-86", null, "Полная оплата", "С 08:00 до 16:00 в будни"));
-        allServices.add(new Master("Макияж", "Петренко Петр10", "067-985-24-86", null, "Полная оплата", "С 08:00 до 16:00 в будни"));
-        allServices.add(new Studio("Макияж", "Компания1", "067-985-24-86", null, "Полная оплата", "С 08:00 до 16:00 в будни"));
-        allServices.add(new Studio("Маникюр, педикюр", "Компания2", "067-985-24-86", null, "Полная оплата", "С 08:00 до 16:00 в будни"));
-        allServices.add(new Studio("Маникюр, педикюр", "Компания3", "067-985-24-86", null, "Полная оплата", "С 08:00 до 16:00 в будни"));
-        allServices.add(new Studio("Макияж", "Компания4", "067-985-24-86", null, "Полная оплата", "С 08:00 до 16:00 в будни"));
-        allServices.add(new Studio("Макияж", "Компания5", "067-985-24-86", null, "Полная оплата", "С 08:00 до 16:00 в будни"));
-        allServices.add(new Studio("Макияж", "Компания6", "067-985-24-86", null, "Полная оплата", "С 08:00 до 16:00 в будни"));
-        allServices.add(new Studio("Макияж", "Компания7", "067-985-24-86", null, "Полная оплата", "С 08:00 до 16:00 в будни"));
-        allServices.add(new Studio("Макияж", "Компания8", "067-985-24-86", null, "Полная оплата", "С 08:00 до 16:00 в будни"));
-        allServices.add(new Studio("Маникюр, педикюр", "Компания9", "067-985-24-86", null, "Полная оплата", "С 08:00 до 16:00 в будни"));
-        allServices.add(new Studio("Макияж", "Компания10", "067-985-24-86", null, "Полная оплата", "С 08:00 до 16:00 в будни"));
-        allServices.add(new Studio("Макияж", "Компания11", "067-985-24-86", null, "Полная оплата", "С 08:00 до 16:00 в будни"));
-        allServices.add(new Studio("Макияж", "Компания12", "067-985-24-86", null, "Полная оплата", "С 08:00 до 16:00 в будни"));
+        List<Service> allServices = new ArrayList<>();
+        allServices.add(new Service(
+        1, "Макияж", "Петр", "Мастер",
+                "Петренко", "мужской", "067456982", "http://test",
+                "Полная оплата", "С 08:00 до 16:00 в будни", "Есть выезд к клиенту на дом"
+        ));
+
+        allServices.add(new Service(
+        1, "Макияж", "Компания1", "Студия",
+                "", "", "067456982", "http://test",
+                "Полная оплата", "С 08:00 до 16:00 в будни", "Есть выезд к клиенту на дом"
+        ));
+
 
         return allServices;
     }
 
-    private List<ServiceInterface> getMastersOrStudios(List<ServiceInterface> allServices, String mainNameService, String classTypeToReturn) {
-        List<ServiceInterface> resultList = new ArrayList<>();
-        for (ServiceInterface service : allServices) {
-            if (service.getTypeService().equals(classTypeToReturn) && service.getCategory().equals(mainNameService)) {
+    private List<Service> getMastersOrStudios(List<Service> allServices, String mainNameService, String classTypeToReturn) {
+        List<Service> resultList = new ArrayList<>();
+        for (Service service : allServices) {
+            if (service.getItem().equals(classTypeToReturn) && service.getCategory().equals(mainNameService)) {
                 resultList.add(service);
             }
         }

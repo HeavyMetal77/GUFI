@@ -13,14 +13,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ua.tarastom.gufi.R;
-import ua.tarastom.gufi.model.ServiceInterface;
+import ua.tarastom.gufi.model.Service;
 
 public class DetailServiceAdapter extends RecyclerView.Adapter<DetailServiceAdapter.ServiceViewHolder> {
 
-    private List<ServiceInterface> serviceItem;
+    private List<Service> serviceItem;
+    private OnProfileClickListener onProfileClickListener;
 
-    public DetailServiceAdapter(List<ServiceInterface> serviceItem) {
+    public DetailServiceAdapter(List<Service> serviceItem) {
         this.serviceItem = serviceItem;
+    }
+
+    public interface OnProfileClickListener {
+        void onProfileClick(int position);
+    }
+
+    public void setOnProfileClickListener(OnProfileClickListener onProfileClickListener) {
+        this.onProfileClickListener = onProfileClickListener;
     }
 
     public void removeItem(int position) {
@@ -28,21 +37,21 @@ public class DetailServiceAdapter extends RecyclerView.Adapter<DetailServiceAdap
         notifyItemRemoved(position);
     }
 
-    public void restoreItem(ServiceInterface item, int position) {
+    public void restoreItem(Service item, int position) {
         serviceItem.add(position, item);
         notifyItemInserted(position);
     }
 
-    public void setServiceItems(List<ServiceInterface> serviceItem) {
+    public void setServiceItems(List<Service> serviceItem) {
         this.serviceItem = serviceItem;
         notifyDataSetChanged();
     }
 
-    public List<ServiceInterface> getServiceItems() {
+    public List<Service> getServiceItems() {
         return serviceItem;
     }
 
-    private void addServiceItems(ArrayList<ServiceInterface> serviceItem) {
+    private void addServiceItems(ArrayList<Service> serviceItem) {
         this.serviceItem.addAll(serviceItem);
         notifyDataSetChanged();
     }
@@ -56,13 +65,14 @@ public class DetailServiceAdapter extends RecyclerView.Adapter<DetailServiceAdap
 
     @Override
     public void onBindViewHolder(@NonNull ServiceViewHolder holder, int position) {
-        ServiceInterface serviceInterface = serviceItem.get(position);
-        holder.nameMaster.setText(serviceInterface.getName());
-        holder.current_category.setText(serviceInterface.getCategory());
-        holder.numberPhoneMaster.setText(serviceInterface.getNumber());
-        holder.payment.setText(serviceInterface.getPayment());
-        holder.businessHours.setText(serviceInterface.getBusinessHours());
-//        holder.person_photo.setText(serviceInterface.getNumber());
+        Service service = serviceItem.get(position);
+        String name = service.getName() + " " + service.getSurname();
+        holder.nameMaster.setText(name);
+        holder.current_category.setText(service.getCategory());
+        holder.numberPhoneMaster.setText(service.getNumberPhone());
+        holder.payment.setText(service.getPayment());
+        holder.businessHours.setText(service.getBusinessHours());
+//        holder.person_photo.setText(service.getNumber());
     }
 
     @Override
@@ -87,6 +97,12 @@ public class DetailServiceAdapter extends RecyclerView.Adapter<DetailServiceAdap
             person_photo = itemView.findViewById(R.id.person_photo);
             payment = itemView.findViewById(R.id.textViewPayment);
             businessHours = itemView.findViewById(R.id.textViewBusinessHours);
+
+            itemView.setOnClickListener(view -> {
+                if (onProfileClickListener != null) {
+                    onProfileClickListener.onProfileClick(getAdapterPosition());
+                }
+            });
         }
     }
 }

@@ -17,11 +17,11 @@ import java.util.List;
 
 import ua.tarastom.gufi.DetailServiceActivity;
 import ua.tarastom.gufi.R;
-import ua.tarastom.gufi.model.Service;
+import ua.tarastom.gufi.model.Category;
 
 public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ServiceViewHolder> {
 
-    private List<Service> serviceItemsFavorites;
+    private List<Category> serviceItemsFavorites;
     private int screenWidth;
     private boolean changeIndent; //флаг для изменения отступов
 
@@ -30,16 +30,16 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Servic
         serviceItemsFavorites = new ArrayList<>();
     }
 
-    public void setServiceItemsFavorites(List<Service> serviceItemsFavorites) {
+    public void setServiceItemsFavorites(List<Category> serviceItemsFavorites) {
         this.serviceItemsFavorites = serviceItemsFavorites;
         notifyDataSetChanged();
     }
 
-    public List<Service> getServiceItemsFavorites() {
+    public List<Category> getServiceItemsFavorites() {
         return serviceItemsFavorites;
     }
 
-    private void addServiceItems(ArrayList<Service> serviceItems) {
+    private void addServiceItems(ArrayList<Category> serviceItems) {
         this.serviceItemsFavorites.addAll(serviceItems);
         notifyDataSetChanged();
     }
@@ -53,14 +53,14 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Servic
 
     @Override
     public void onBindViewHolder(@NonNull ServiceViewHolder holder, int position) {
-        Service service = serviceItemsFavorites.get(position);
-        holder.button_favorite.setText(service.getMainNameService());
+        Category service = serviceItemsFavorites.get(position);
+        holder.button_favorite.setText(service.getNameCategory());
         holder.button_favorite.setWidth(screenWidth / 3 - 80);
         holder.button_favorite.setHeight(screenWidth / 3 - 80);
 
         holder.button_favorite.setOnClickListener(view -> {
             Intent intent = new Intent(holder.itemView.getContext(), DetailServiceActivity.class);
-            intent.putExtra("mainNameService", service.getMainNameService());
+            intent.putExtra("mainNameService", service.getNameCategory());
             holder.itemView.getContext().startActivity(intent);
         });
 

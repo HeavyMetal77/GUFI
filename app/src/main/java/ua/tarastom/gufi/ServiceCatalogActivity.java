@@ -10,16 +10,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
+import ua.tarastom.gufi.model.Category;
 import ua.tarastom.gufi.model.Service;
-import ua.tarastom.gufi.model.ServiceItem;
 import ua.tarastom.gufi.utils.FavoriteAdapter;
 import ua.tarastom.gufi.utils.ServiceAdapter;
 
 public class ServiceCatalogActivity extends AppCompatActivity {
+    private final String nameCollection = "services";
     private RecyclerView recyclerview_all_services;
     private RecyclerView recyclerview_studios;
     private RecyclerView recyclerview_all_masters;
@@ -35,29 +39,13 @@ public class ServiceCatalogActivity extends AppCompatActivity {
         recyclerview_studios = findViewById(R.id.recyclerview_studios);
         recyclerview_all_services = findViewById(R.id.recyclerview_all_services);
 
-        recyclerview_favorites.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
-        FavoriteAdapter favoriteAdapter = new FavoriteAdapter(false);
-        favoriteAdapter.setServiceItemsFavorites(getListService());
-        favoriteAdapter.setScreenWidth(getScreenWidth());
-        recyclerview_favorites.setAdapter(favoriteAdapter);
-
-        recyclerview_all_masters.setLayoutManager(new GridLayoutManager(this, 2, RecyclerView.HORIZONTAL, false));
-        FavoriteAdapter serviceAdapter_all_masters = new FavoriteAdapter(true);
-        serviceAdapter_all_masters.setServiceItemsFavorites(getListService());
-        serviceAdapter_all_masters.setScreenWidth(getScreenWidth());
-        recyclerview_all_masters.setAdapter(serviceAdapter_all_masters);
-
-        recyclerview_studios.setLayoutManager(new GridLayoutManager(this, 2, RecyclerView.HORIZONTAL, false));
-        FavoriteAdapter serviceAdapter_studios = new FavoriteAdapter(true);
-        serviceAdapter_studios.setServiceItemsFavorites(getListService());
-        serviceAdapter_studios.setScreenWidth(getScreenWidth());
-        recyclerview_studios.setAdapter(serviceAdapter_studios);
-
-        recyclerview_all_services.setLayoutManager(new GridLayoutManager(this, 3, RecyclerView.VERTICAL, false));
-        ServiceAdapter serviceAdapter3 = new ServiceAdapter();
-        serviceAdapter3.setServiceItems(getListService());
-        serviceAdapter3.setScreenWidth(getScreenWidth());
-        recyclerview_all_services.setAdapter(serviceAdapter3);
+        Thread thread = new Thread(new GetDataFromCloudDB());
+        try {
+            thread.start();
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         BottomNavigationView bottomNavigationView = new BottomNavigationView(this);
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
@@ -73,32 +61,39 @@ public class ServiceCatalogActivity extends AppCompatActivity {
             }
             return false;
         });
-
     }
 
-    private List<Service> getListService() {
-        List<Service> serviceItems = new ArrayList<>();
-        ArrayList<ServiceItem> serviceItemArrayList = new ArrayList<>();
-        serviceItems.add(new Service("Макияж", serviceItemArrayList));
-        serviceItems.add(new Service("Маникюр, педикюр", serviceItemArrayList));
-        serviceItems.add(new Service("Парикмахерские услуги", serviceItemArrayList));
-        serviceItems.add(new Service("Депиляция", serviceItemArrayList));
-        serviceItems.add(new Service("Архитектура бровей", serviceItemArrayList));
-        serviceItems.add(new Service("Маникюр с покрытием", serviceItemArrayList));
-        serviceItems.add(new Service("Консультация по подбору ортопедических изделий", serviceItemArrayList));
-        serviceItems.add(new Service("SPA", serviceItemArrayList));
-        serviceItems.add(new Service("Услуги грузчиков", serviceItemArrayList));
-        serviceItems.add(new Service("Юридические услуги", serviceItemArrayList));
-        serviceItems.add(new Service("Риелторские услуги", serviceItemArrayList));
-        serviceItems.add(new Service("Доставка воды", serviceItemArrayList));
-        serviceItems.add(new Service("Наращивание ногтей", serviceItemArrayList));
-        return serviceItems;
+    private void loadDataToRecyclerView(List<Category> categories) {
+        recyclerview_favorites.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
+        FavoriteAdapter favoriteAdapter = new FavoriteAdapter(false);
+        favoriteAdapter.setServiceItemsFavorites(categories);
+        favoriteAdapter.setScreenWidth(getScreenWidth());
+        recyclerview_favorites.setAdapter(favoriteAdapter);
+
+        recyclerview_all_masters.setLayoutManager(new GridLayoutManager(this, 2, RecyclerView.HORIZONTAL, false));
+        FavoriteAdapter serviceAdapter_all_masters = new FavoriteAdapter(true);
+        serviceAdapter_all_masters.setServiceItemsFavorites(categories);
+        serviceAdapter_all_masters.setScreenWidth(getScreenWidth());
+        recyclerview_all_masters.setAdapter(serviceAdapter_all_masters);
+
+        recyclerview_studios.setLayoutManager(new GridLayoutManager(this, 2, RecyclerView.HORIZONTAL, false));
+        FavoriteAdapter serviceAdapter_studios = new FavoriteAdapter(true);
+        serviceAdapter_studios.setServiceItemsFavorites(categories);
+        serviceAdapter_studios.setScreenWidth(getScreenWidth());
+        recyclerview_studios.setAdapter(serviceAdapter_studios);
+
+        recyclerview_all_services.setLayoutManager(new GridLayoutManager(this, 3, RecyclerView.VERTICAL, false));
+        ServiceAdapter serviceAdapter3 = new ServiceAdapter();
+        serviceAdapter3.setServiceItems(categories);
+        serviceAdapter3.setScreenWidth(getScreenWidth());
+        recyclerview_all_services.setAdapter(serviceAdapter3);
     }
+
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent = new Intent(ServiceCatalogActivity.this, FaqActivity.class );
+        Intent intent = new Intent(ServiceCatalogActivity.this, FaqActivity.class);
         startActivity(intent);
         finish();
     }
@@ -107,4 +102,22 @@ public class ServiceCatalogActivity extends AppCompatActivity {
         return Resources.getSystem().getDisplayMetrics().widthPixels;
     }
 
+    private class GetDataFromCloudDB implements Runnable {
+        @Override
+        public void run() {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection(nameCollection).addSnapshotListener((value, error) -> {
+                List<Service> services = new ArrayList<>();
+                Set<Category> categories = new LinkedHashSet<>();
+                if (value != null) {
+                    services = value.toObjects(Service.class);
+                }
+                for (Service service : services) {
+                    categories.add(new Category(service.getCategory()));
+                }
+                List<Category> categoryList = new ArrayList<>(categories);
+                loadDataToRecyclerView(categoryList);
+            });
+        }
+    }
 }

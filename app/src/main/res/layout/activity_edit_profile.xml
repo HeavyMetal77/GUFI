@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".ProfileActivity">
+    tools:context=".EditProfileActivity">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_detail_profile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.15" />
+        app:layout_constraintGuide_percent="0.12" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_catalog_top"
@@ -24,29 +24,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-
-
         <ImageView
             android:id="@+id/imageViewArrow"
             android:layout_width="13dp"
             android:layout_height="17dp"
-            android:layout_marginStart="36dp"
-            android:layout_marginTop="49dp"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="22dp"
             android:layout_marginEnd="10dp"
             android:contentDescription="@string/image_description_icon_go"
+            android:onClick="backToProfile"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/icon_arrow" />
 
         <TextView
             android:id="@+id/textViewHeaderProfile"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="13dp"
-            android:layout_marginTop="45dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="90dp"
             android:text="@string/label_edit_profile"
             android:textColor="@color/white"
             android:textSize="22sp"
+            android:onClick="backToProfile"
             app:layout_constraintStart_toEndOf="@+id/imageViewArrow"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -54,8 +55,8 @@
             android:id="@+id/imageViewIconProfile"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_marginTop="48dp"
-            android:layout_marginEnd="38dp"
+            android:layout_marginTop="22dp"
+            android:layout_marginEnd="5dp"
             android:contentDescription="@string/image_description_big_profile"
             android:elevation="0dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -66,43 +67,36 @@
             android:id="@+id/imageViewMaskIconProfile"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_marginTop="48dp"
-            android:layout_marginEnd="38dp"
+            android:layout_marginTop="22dp"
+            android:layout_marginEnd="5dp"
             android:contentDescription="@string/image_description_big_profile"
-            android:elevation="1dp"
+            android:elevation="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/mask_photo" />
-
-        <TextView
-            android:id="@+id/textViewNumberPhoneProfile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="36dp"
-            android:layout_marginTop="91dp"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:text="@string/label_test_number_phone" />
-
-
-
-
 
         <ImageView
             android:id="@+id/imageViewPhone"
             android:layout_width="10dp"
             android:layout_height="10dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="95dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="21dp"
             android:contentDescription="@string/description_icon_phone"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewHeaderProfile"
             app:srcCompat="@drawable/icon_profile_phone" />
 
-
-
-
+        <TextView
+            android:id="@+id/textViewNumberPhoneProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginTop="15dp"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@+id/imageViewPhone"
+            app:layout_constraintTop_toBottomOf="@+id/textViewHeaderProfile"
+            android:text="@string/label_test_number_phone" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -123,7 +117,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/guideline_detail_profile">
-
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -418,6 +411,7 @@
                         android:layout_marginStart="5dp"
                         android:layout_marginEnd="5dp"
                         android:layout_weight="1"
+                        android:background="@drawable/style_load_portfolio"
                         android:contentDescription="@string/description_photo"
                         app:srcCompat="@drawable/load_portfolio_img" />
 
@@ -427,6 +421,7 @@
                         android:layout_height="115dp"
                         android:layout_marginStart="5dp"
                         android:layout_weight="1"
+                        android:background="@drawable/style_load_portfolio"
                         android:contentDescription="@string/description_photo"
                         app:srcCompat="@drawable/load_portfolio_img" />
 
@@ -436,6 +431,7 @@
                         android:layout_height="115dp"
                         android:layout_marginStart="5dp"
                         android:layout_weight="1"
+                        android:background="@drawable/style_load_portfolio"
                         android:contentDescription="@string/description_photo"
                         app:srcCompat="@drawable/load_portfolio_img" />
 
@@ -455,6 +451,7 @@
                         android:layout_marginStart="5dp"
                         android:layout_marginEnd="5dp"
                         android:layout_weight="1"
+                        android:background="@drawable/style_load_portfolio"
                         android:contentDescription="@string/description_photo"
                         app:srcCompat="@drawable/load_portfolio_img" />
 
@@ -464,6 +461,7 @@
                         android:layout_height="115dp"
                         android:layout_marginStart="5dp"
                         android:layout_weight="1"
+                        android:background="@drawable/style_load_portfolio"
                         android:contentDescription="@string/description_photo"
                         app:srcCompat="@drawable/load_portfolio_img" />
 
@@ -473,16 +471,13 @@
                         android:layout_height="115dp"
                         android:layout_marginStart="5dp"
                         android:layout_weight="1"
+                        android:background="@drawable/style_load_portfolio"
                         android:contentDescription="@string/description_photo"
                         app:srcCompat="@drawable/load_portfolio_img" />
 
                 </LinearLayout>
 
             </LinearLayout>
-
-
-
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

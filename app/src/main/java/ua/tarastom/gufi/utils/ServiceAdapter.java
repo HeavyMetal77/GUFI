@@ -16,11 +16,11 @@ import java.util.List;
 
 import ua.tarastom.gufi.DetailServiceActivity;
 import ua.tarastom.gufi.R;
-import ua.tarastom.gufi.model.Service;
+import ua.tarastom.gufi.model.Category;
 
 public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ServiceViewHolder> {
 
-    private List<Service> serviceItems;
+    private List<Category> serviceItems;
     private int screenWidth;
 
     public ServiceAdapter() {
@@ -28,16 +28,16 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ServiceV
     }
 
 
-    public void setServiceItems(List<Service> serviceItems) {
+    public void setServiceItems(List<Category> serviceItems) {
         this.serviceItems = serviceItems;
         notifyDataSetChanged();
     }
 
-    public List<Service> getServiceItems() {
+    public List<Category> getServiceItems() {
         return serviceItems;
     }
 
-    private void addServiceItems(ArrayList<Service> serviceItems) {
+    private void addServiceItems(ArrayList<Category> serviceItems) {
         this.serviceItems.addAll(serviceItems);
         notifyDataSetChanged();
     }
@@ -51,14 +51,14 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ServiceV
 
     @Override
     public void onBindViewHolder(@NonNull ServiceViewHolder holder, int position) {
-        Service service = serviceItems.get(position);
-        holder.button_service.setText(service.getMainNameService());
+        Category service = serviceItems.get(position);
+        holder.button_service.setText(service.getNameCategory());
         holder.button_service.setWidth(screenWidth/3-30);
         holder.button_service.setHeight(screenWidth/3-30);
         holder.button_service.setOnClickListener(view -> {
             Intent intent = new Intent(holder.itemView.getContext(), DetailServiceActivity.class);
-            Service service1 = serviceItems.get(position);
-            intent.putExtra("mainNameService", service1.getMainNameService());
+            Category service1 = serviceItems.get(position);
+            intent.putExtra("mainNameService", service1.getNameCategory());
             holder.itemView.getContext().startActivity(intent);
         });
         holder.imageViewIconHeart.setOnClickListener(view -> {
