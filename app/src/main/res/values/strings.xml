@@ -29,6 +29,28 @@
     <string name="image_view_description_person_photo">Фотография мастера или логотип студии</string>
     <string name="description_item_clock">Логотип часов</string>
     <string name="description_bank_card">Логотип банковской карты</string>
+    <string name="label_profile">Профиль</string>
+    <string name="image_description_big_profile">Фото профиля</string>
+    <string name="description_icon_phone">Иконка телефона</string>
+    <string name="description_icon_man">Иконка человека</string>
+    <string name="description_icon_symbol">Иконка половой принадлежности</string>
+    <string name="description_stars_profile">Звезды рейтинга мастера</string>
+    <string name="description_icon_portfolio">Иконка портфолио</string>
+    <string name="description_text_test_portfolio">Доброго времени суток! Професионально предоставляю услуги по Пирсингу. Только лучшие и стирильные материалы в городе. Спешите записатся на сеанс, время ограничено.</string>
+    <string name="description_photo">Фотография</string>
+    <string name="text_point_of_contact">Есть выезд к клиенту на дом</string>
+    <string name="label_profile_certificates">Сертификаты</string>
+    <string name="label_profile_my_messages">Мои сообщения</string>
+    <string name="label_profile_calendar">Календарь</string>
+    <string name="smth_icon">Иконка</string>
+    <string name="label_profile_services_and_prices">Услуги и цены</string>
+    <string name="label_profile_favorite_masters_and_services">Избранные мастера и услуги</string>
+    <string name="label_edit_profile">Редактировать профиль</string>
+    <string name="label_f_a_q">F.A.Q.</string>
+    <string name="label_exit">Выход</string>
+    <string name="label_test_number_phone">067&#8211;123&#8211;456&#8211;78</string>
+    <string name="label_test_surname">Андрей Ронин</string>
+    <string name="label_test_sex">мужской</string>
 
     <string-array name="faq_text_header_detail">
         <item>Для специалистов и профессионалов своего дела</item>

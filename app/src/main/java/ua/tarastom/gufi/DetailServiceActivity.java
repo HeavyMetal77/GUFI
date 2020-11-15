@@ -102,8 +102,12 @@ public class DetailServiceActivity extends AppCompatActivity {
         recyclerview_detail_service = findViewById(R.id.recyclerview_detail_service);
         adapter = new DetailServiceAdapter(services);
         adapter.setServiceItems(services);
-        recyclerview_detail_service.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+        recyclerview_detail_service.setLayoutManager(layoutManager);
         recyclerview_detail_service.setAdapter(adapter);
+//        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerview_detail_service.getContext(),
+//                layoutManager.getOrientation());
+//        recyclerview_detail_service.addItemDecoration(dividerItemDecoration);
         enableSwipeToDeleteAndUndo();
     }
 
