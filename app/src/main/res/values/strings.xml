@@ -51,6 +51,18 @@
     <string name="label_test_number_phone">067&#8211;123&#8211;456&#8211;78</string>
     <string name="label_test_surname">Андрей Ронин</string>
     <string name="label_test_sex">мужской</string>
+    <string name="label_name">Имя</string>
+    <string name="label_test_name">Андрей</string>
+    <string name="hint_name">Введите имя</string>
+    <string name="label_surname">Фамилия</string>
+    <string name="hint_surname">Введите фамилию</string>
+    <string name="label_phone">Телефон</string>
+    <string name="hint_number_phone">Введите номер телефона</string>
+    <string name="label_sex">Пол</string>
+    <string name="hint_edit_sex">Введите пол</string>
+    <string name="label_about">О себе</string>
+    <string name="label_test_about_me">Информация о себе</string>
+    <string name="hint_edit_about_me">Введите информацию о себе</string>
 
     <string-array name="faq_text_header_detail">
         <item>Для специалистов и профессионалов своего дела</item>

@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".ProfileActivity">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_detail_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.15" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_catalog_top"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/color_main"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_detail_profile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+
+        <ImageView
+            android:id="@+id/imageViewArrow"
+            android:layout_width="13dp"
+            android:layout_height="17dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="49dp"
+            android:layout_marginEnd="10dp"
+            android:contentDescription="@string/image_description_icon_go"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/icon_arrow" />
+
+        <TextView
+            android:id="@+id/textViewHeaderProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="13dp"
+            android:layout_marginTop="45dp"
+            android:text="@string/label_edit_profile"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            app:layout_constraintStart_toEndOf="@+id/imageViewArrow"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageViewIconProfile"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="48dp"
+            android:layout_marginEnd="38dp"
+            android:contentDescription="@string/image_description_big_profile"
+            android:elevation="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/photo_test" />
+
+        <ImageView
+            android:id="@+id/imageViewMaskIconProfile"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="48dp"
+            android:layout_marginEnd="38dp"
+            android:contentDescription="@string/image_description_big_profile"
+            android:elevation="1dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/mask_photo" />
+
+        <TextView
+            android:id="@+id/textViewNumberPhoneProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="91dp"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="@string/label_test_number_phone" />
+
+
+
+
+
+        <ImageView
+            android:id="@+id/imageViewPhone"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="95dp"
+            android:contentDescription="@string/description_icon_phone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/icon_profile_phone" />
+
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="103dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guideline_detail_profile">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_detail_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_grey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/guideline_detail_profile">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textViewLabelEditName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="36dp"
+                    android:layout_marginTop="18dp"
+                    android:text="@string/label_name"
+                    android:textColor="@color/black_light"
+                    android:textSize="12sp" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imageViewArrowBack1"
+                    android:layout_width="7dp"
+                    android:layout_height="14dp"
+                    android:layout_marginEnd="36dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginStart="20dp"
+                    android:contentDescription="@string/image_description_icon_go"
+                    app:srcCompat="@drawable/icon_arrow_back"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    />
+
+                <EditText
+                    android:id="@+id/editTextEditName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="36dp"
+                    android:layout_marginEnd="45dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/label_test_name"
+                    android:hint="@string/hint_name"
+                    android:textColor="@color/color_text_card_view_payment"
+                    android:textSize="16sp"
+                    android:inputType="text"
+                    android:autofillHints="@string/hint_name"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="36dp"
+                    android:layout_marginEnd="36dp"
+                    android:background="@color/color_line" />
+
+                <TextView
+                    android:id="@+id/textViewLabelEditSurname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="36dp"
+                    android:layout_marginTop="18dp"
+                    android:text="@string/label_surname"
+                    android:textColor="@color/black_light"
+                    android:textSize="12sp" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageViewArrowBack2"
+                        android:layout_width="7dp"
+                        android:layout_height="14dp"
+                        android:layout_marginEnd="36dp"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginStart="20dp"
+                        android:contentDescription="@string/image_description_icon_go"
+                        app:srcCompat="@drawable/icon_arrow_back"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        />
+
+                    <EditText
+                        android:id="@+id/editTextEditSurname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:layout_marginStart="36dp"
+                        android:layout_marginEnd="45dp"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/label_test_surname"
+                        android:hint="@string/hint_surname"
+                        android:textColor="@color/color_text_card_view_payment"
+                        android:textSize="16sp"
+                        android:inputType="text"
+                        android:autofillHints="@string/hint_surname"
+                        app:layout_constraintTop_toTopOf="parent"
+                        />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="36dp"
+                    android:layout_marginEnd="36dp"
+                    android:background="@color/color_line" />
+
+                <TextView
+                    android:id="@+id/textViewLabelEditNumberPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="36dp"
+                    android:layout_marginTop="18dp"
+                    android:text="@string/label_phone"
+                    android:textColor="@color/black_light"
+                    android:textSize="12sp" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageViewArrowBack3"
+                        android:layout_width="7dp"
+                        android:layout_height="14dp"
+                        android:layout_marginEnd="36dp"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginStart="20dp"
+                        android:contentDescription="@string/image_description_icon_go"
+                        app:srcCompat="@drawable/icon_arrow_back"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        />
+
+                    <EditText
+                        android:id="@+id/editTextEditNumberPhone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:layout_marginStart="36dp"
+                        android:layout_marginEnd="45dp"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/label_test_number_phone"
+                        android:hint="@string/hint_number_phone"
+                        android:textColor="@color/color_text_card_view_payment"
+                        android:textSize="16sp"
+                        android:inputType="phone"
+                        android:autofillHints="@string/hint_number_phone"
+                        app:layout_constraintTop_toTopOf="parent"
+                        />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="36dp"
+                    android:layout_marginEnd="36dp"
+                    android:background="@color/color_line" />
+
+                <TextView
+                    android:id="@+id/textViewLabelEditSex"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="36dp"
+                    android:layout_marginTop="18dp"
+                    android:text="@string/label_sex"
+                    android:textColor="@color/black_light"
+                    android:textSize="12sp" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageViewArrowBack4"
+                        android:layout_width="7dp"
+                        android:layout_height="14dp"
+                        android:layout_marginEnd="36dp"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginStart="20dp"
+                        android:contentDescription="@string/image_description_icon_go"
+                        app:srcCompat="@drawable/icon_arrow_back"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        />
+
+                    <EditText
+                        android:id="@+id/editTextEditSex"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:layout_marginStart="36dp"
+                        android:layout_marginEnd="45dp"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/label_test_sex"
+                        android:hint="@string/hint_edit_sex"
+                        android:textColor="@color/color_text_card_view_payment"
+                        android:textSize="16sp"
+                        android:inputType="phone"
+                        android:autofillHints="@string/hint_edit_sex"
+                        app:layout_constraintTop_toTopOf="parent"
+                        />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="36dp"
+                    android:layout_marginEnd="36dp"
+                    android:background="@color/color_line" />
+
+                <TextView
+                    android:id="@+id/textViewLabelAboutMe"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="36dp"
+                    android:layout_marginTop="18dp"
+                    android:text="@string/label_about"
+                    android:textColor="@color/black_light"
+                    android:textSize="12sp" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageViewArrowBack5"
+                        android:layout_width="7dp"
+                        android:layout_height="14dp"
+                        android:layout_marginEnd="36dp"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginStart="20dp"
+                        android:contentDescription="@string/image_description_icon_go"
+                        app:srcCompat="@drawable/icon_arrow_back"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        />
+
+                    <EditText
+                        android:id="@+id/editTextAboutMe"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:layout_marginStart="36dp"
+                        android:layout_marginEnd="45dp"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/label_test_about_me"
+                        android:hint="@string/hint_edit_about_me"
+                        android:textColor="@color/color_text_card_view_payment"
+                        android:textSize="16sp"
+                        android:inputType="phone"
+                        android:autofillHints="@string/hint_edit_about_me"
+                        app:layout_constraintTop_toTopOf="parent"
+                        />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="36dp"
+                    android:layout_marginEnd="36dp"
+                    android:background="@color/color_line" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="29dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageViewLoadPortfolio_1"
+                        android:layout_width="115dp"
+                        android:layout_height="115dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_weight="1"
+                        android:contentDescription="@string/description_photo"
+                        app:srcCompat="@drawable/load_portfolio_img" />
+
+                    <ImageView
+                        android:id="@+id/imageViewLoadPortfolio_2"
+                        android:layout_width="115dp"
+                        android:layout_height="115dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_weight="1"
+                        android:contentDescription="@string/description_photo"
+                        app:srcCompat="@drawable/load_portfolio_img" />
+
+                    <ImageView
+                        android:id="@+id/imageViewLoadPortfolio_3"
+                        android:layout_width="115dp"
+                        android:layout_height="115dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_weight="1"
+                        android:contentDescription="@string/description_photo"
+                        app:srcCompat="@drawable/load_portfolio_img" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:orientation="horizontal"
+                    >
+
+                    <ImageView
+                        android:id="@+id/imageViewLoadPortfolio_4"
+                        android:layout_width="115dp"
+                        android:layout_height="115dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_weight="1"
+                        android:contentDescription="@string/description_photo"
+                        app:srcCompat="@drawable/load_portfolio_img" />
+
+                    <ImageView
+                        android:id="@+id/imageViewLoadPortfolio_5"
+                        android:layout_width="115dp"
+                        android:layout_height="115dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_weight="1"
+                        android:contentDescription="@string/description_photo"
+                        app:srcCompat="@drawable/load_portfolio_img" />
+
+                    <ImageView
+                        android:id="@+id/imageViewLoadPortfolio_6"
+                        android:layout_width="115dp"
+                        android:layout_height="115dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_weight="1"
+                        android:contentDescription="@string/description_photo"
+                        app:srcCompat="@drawable/load_portfolio_img" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="103dp"
+            android:background="@drawable/bottom_navigation_background"
+            app:menu="@menu/bottom_menu" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8.4dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginEnd="52dp"
+        android:layout_marginBottom="14dp"
+        android:background="@drawable/line_menu"
+        android:elevation="3dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

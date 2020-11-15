@@ -9,6 +9,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GUFI">
+        <activity android:name=".EditProfileActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".ProfileActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,11 +24,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".DetailServiceActivity" />
-        <activity android:name=".ServiceCatalogActivity">
-
-        </activity>
+        <activity android:name=".ServiceCatalogActivity"></activity>
         <activity android:name=".FaqActivity" />
-        <activity android:name=".PreLoaderActivity"/>
+        <activity android:name=".PreLoaderActivity" />
     </application>
 
 </manifest>
