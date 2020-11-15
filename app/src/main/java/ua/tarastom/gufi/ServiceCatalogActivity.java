@@ -39,13 +39,19 @@ public class ServiceCatalogActivity extends AppCompatActivity {
         recyclerview_studios = findViewById(R.id.recyclerview_studios);
         recyclerview_all_services = findViewById(R.id.recyclerview_all_services);
 
-        Thread thread = new Thread(new GetDataFromCloudDB());
-        try {
-            thread.start();
-            thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection(nameCollection).addSnapshotListener((value, error) -> {
+            List<Service> services = new ArrayList<>();
+            Set<Category> categories = new LinkedHashSet<>();
+            if (value != null) {
+                services = value.toObjects(Service.class);
+            }
+            for (Service service : services) {
+                categories.add(new Category(service.getCategory()));
+            }
+            List<Category> categoryList = new ArrayList<>(categories);
+            loadDataToRecyclerView(categoryList);
+        });
 
         BottomNavigationView bottomNavigationView = new BottomNavigationView(this);
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
@@ -89,7 +95,6 @@ public class ServiceCatalogActivity extends AppCompatActivity {
         recyclerview_all_services.setAdapter(serviceAdapter3);
     }
 
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -100,24 +105,5 @@ public class ServiceCatalogActivity extends AppCompatActivity {
 
     public static int getScreenWidth() {
         return Resources.getSystem().getDisplayMetrics().widthPixels;
-    }
-
-    private class GetDataFromCloudDB implements Runnable {
-        @Override
-        public void run() {
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-            db.collection(nameCollection).addSnapshotListener((value, error) -> {
-                List<Service> services = new ArrayList<>();
-                Set<Category> categories = new LinkedHashSet<>();
-                if (value != null) {
-                    services = value.toObjects(Service.class);
-                }
-                for (Service service : services) {
-                    categories.add(new Category(service.getCategory()));
-                }
-                List<Category> categoryList = new ArrayList<>(categories);
-                loadDataToRecyclerView(categoryList);
-            });
-        }
     }
 }

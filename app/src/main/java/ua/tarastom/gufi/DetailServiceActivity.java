@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,18 +33,47 @@ public class DetailServiceActivity extends AppCompatActivity {
     private ImageView imageViewArrow;
     private RecyclerView recyclerview_detail_service;
     private DetailServiceAdapter adapter;
+    private final String nameCollection = "services";
+    private String mainNameService;
+    private String typeItem = "Мастер";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_service);
-        String mainNameService = getIntent().getStringExtra("mainNameService");
+        mainNameService = getIntent().getStringExtra("mainNameService");
         textViewHeaderSubCatalog = findViewById(R.id.textViewHeaderSubCatalog);
-
-        //получаю список всех студий и мастеров
         textViewLabelStudios = findViewById(R.id.textViewLabelStudios);
+        textViewLabelMasters = findViewById(R.id.textViewLabelMasters);
+        imageViewArrow = findViewById(R.id.imageViewArrow);
+        imageViewArrow.setOnClickListener(view -> {
+            Intent intent = new Intent(DetailServiceActivity.this, ServiceCatalogActivity.class);
+            startActivity(intent);
+            finish();
+        });
+
+//        Intent intent = getIntent();
+//        if (intent.hasExtra("item")) {
+//            String item = intent.getStringExtra("item");
+//            if (!item.equals("Мастер")) {
+//                typeItem = "Студия";
+//            }
+//        }
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection(nameCollection).addSnapshotListener((value, error) -> {
+            List<Service> services = new ArrayList<>();
+            if (value != null) {
+                services = value.toObjects(Service.class);
+            }
+            changeStudioOrMaster(services, mainNameService);
+            setRecyclerview_detail_service(getMastersOrStudios(services, mainNameService, typeItem), mainNameService);
+        });
+
+    }
+
+    private void setOnClickStudio(List<Service> services, String mainNameService) {
         textViewLabelStudios.setOnClickListener(view -> {
-            List<Service> listMasters = getMastersOrStudios(getAllServices(), mainNameService, "Студия");
+            List<Service> listMasters = getMastersOrStudios(services, mainNameService, "Студия");
             setRecyclerview_detail_service(listMasters, mainNameService);
             textViewLabelStudios.setTypeface(Typeface.DEFAULT_BOLD);
             textViewLabelStudios.setTextSize(16);
@@ -50,11 +81,11 @@ public class DetailServiceActivity extends AppCompatActivity {
             textViewLabelMasters.setTypeface(Typeface.DEFAULT);
             textViewLabelMasters.setTextSize(12);
             textViewLabelMasters.setTextColor(ContextCompat.getColor(DetailServiceActivity.this, R.color.black_light));
-
         });
-        textViewLabelMasters = findViewById(R.id.textViewLabelMasters);
+    }
+    private void setOnClickMaster(List<Service> services, String mainNameService) {
         textViewLabelMasters.setOnClickListener(view -> {
-            List<Service> listStudios = getMastersOrStudios(getAllServices(), mainNameService, "Мастер");
+            List<Service> listStudios = getMastersOrStudios(services, mainNameService, "Мастер");
             setRecyclerview_detail_service(listStudios, mainNameService);
             textViewLabelMasters.setTypeface(Typeface.DEFAULT_BOLD);
             textViewLabelMasters.setTextSize(16);
@@ -63,16 +94,12 @@ public class DetailServiceActivity extends AppCompatActivity {
             textViewLabelStudios.setTextSize(12);
             textViewLabelStudios.setTextColor(ContextCompat.getColor(DetailServiceActivity.this, R.color.black_light));
         });
+    }
+
+    private void changeStudioOrMaster(List<Service> services, String mainNameService) {
+        setOnClickStudio(services, mainNameService);
+        setOnClickMaster(services, mainNameService);
         textViewHeaderSubCatalog.setText(mainNameService);
-
-        imageViewArrow = findViewById(R.id.imageViewArrow);
-        imageViewArrow.setOnClickListener(view -> {
-            Intent intent = new Intent(DetailServiceActivity.this, ServiceCatalogActivity.class);
-            startActivity(intent);
-            finish();
-        });
-
-        setRecyclerview_detail_service(getMastersOrStudios(getAllServices(), mainNameService, "Мастер"), mainNameService);
     }
 
     private void enableSwipeToDeleteAndUndo() {
@@ -106,37 +133,18 @@ public class DetailServiceActivity extends AppCompatActivity {
         adapter.setOnProfileClickListener(position -> {
             Intent intent = new Intent(DetailServiceActivity.this, ProfileActivity.class);
             Service service = adapter.getServiceItems().get(position);
+
+
             intent.putExtra("nameServiceItem", service.getName());
+            intent.putExtra("surnameServiceItem", service.getSurname());
             intent.putExtra("mainNameService", mainNameService);
             startActivity(intent);
         });
-
         recyclerview_detail_service.setAdapter(adapter);
 //        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerview_detail_service.getContext(),
 //                layoutManager.getOrientation());
 //        recyclerview_detail_service.addItemDecoration(dividerItemDecoration);
         enableSwipeToDeleteAndUndo();
-    }
-
-
-    private List<Service> getAllServices() {
-        //TODO реализовать получение списка с БД
-
-        List<Service> allServices = new ArrayList<>();
-        allServices.add(new Service(
-        1, "Макияж", "Петр", "Мастер",
-                "Петренко", "мужской", "067456982", "http://test",
-                "Полная оплата", "С 08:00 до 16:00 в будни", "Есть выезд к клиенту на дом"
-        ));
-
-        allServices.add(new Service(
-        1, "Макияж", "Компания1", "Студия",
-                "", "", "067456982", "http://test",
-                "Полная оплата", "С 08:00 до 16:00 в будни", "Есть выезд к клиенту на дом"
-        ));
-
-
-        return allServices;
     }
 
     private List<Service> getMastersOrStudios(List<Service> allServices, String mainNameService, String classTypeToReturn) {
@@ -149,6 +157,11 @@ public class DetailServiceActivity extends AppCompatActivity {
         return resultList;
     }
 
+    public void backToCatalog(View view) {
+        Intent intent = new Intent(DetailServiceActivity.this, ServiceCatalogActivity.class);
+        startActivity(intent);
+        finish();
+    }
 
     @Override
     public void onBackPressed() {
@@ -157,5 +170,4 @@ public class DetailServiceActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-
 }
