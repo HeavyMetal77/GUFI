@@ -1,14 +1,25 @@
 package ua.tarastom.gufi;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
 
 import ua.tarastom.gufi.model.Service;
 
@@ -17,14 +28,17 @@ public class ProfileActivity extends AppCompatActivity {
     private String nameServiceItem;
     private String surnameServiceItem;
     private String mainNameService;
-    private final String nameCollection = "services";
+    private final String nameCollection = "services2";
     private Service service;
 
     private TextView textViewNumberPhoneProfile;
     private TextView textViewNameProfile;
     private TextView textViewSexProfile;
     private TextView textViewDescriptionServicePortfolio;
+    private ImageView imageViewIconProfile;
     private String idServices;
+    private FirebaseStorage storage;
+    private StorageReference storageReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +49,7 @@ public class ProfileActivity extends AppCompatActivity {
         textViewNameProfile = findViewById(R.id.textViewNameProfile);
         textViewSexProfile = findViewById(R.id.textViewSexProfile);
         textViewDescriptionServicePortfolio = findViewById(R.id.textViewDescriptionServicePortfolio);
+        imageViewIconProfile = findViewById(R.id.imageViewIconProfile);
 
         Intent intent = getIntent();
         nameServiceItem = intent.getStringExtra("nameServiceItem");
@@ -42,6 +57,8 @@ public class ProfileActivity extends AppCompatActivity {
         mainNameService = intent.getStringExtra("mainNameService");
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
         db.collection(nameCollection)
                 .whereEqualTo("name", nameServiceItem)
                 .whereEqualTo("surname", surnameServiceItem)
@@ -72,6 +89,33 @@ public class ProfileActivity extends AppCompatActivity {
         textViewNameProfile.setText(name);
         textViewSexProfile.setText(service.getSex());
         textViewDescriptionServicePortfolio.setText(service.getAboutMe());
+        List<String> listImgProfilePicPath = service.getImgProfilePicPath();
+        if (!listImgProfilePicPath.isEmpty()) {
+            downloadImg(listImgProfilePicPath);
+        }
+    }
+
+    private void downloadImg(List<String> listImgProfilePicPath) {
+        StorageReference islandRef = storageReference.child(listImgProfilePicPath.get(0));
+        File localFile = null;
+        try {
+            localFile = File.createTempFile("images", "jpg");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        File finalLocalFile = localFile;
+        islandRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                // Local temp file has been created
+                String filePath = finalLocalFile.getPath();
+                Bitmap bitmap = BitmapFactory.decodeFile(filePath);
+                imageViewIconProfile.setImageBitmap(bitmap);
+            }
+        }).addOnFailureListener(exception -> {
+            // Handle any errors
+        });
     }
 
     public void editProfile(View view) {

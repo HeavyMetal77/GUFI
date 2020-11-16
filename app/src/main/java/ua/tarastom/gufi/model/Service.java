@@ -4,6 +4,8 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import java.util.List;
+
 @Entity(tableName = "services")
 public class Service{
 
@@ -19,7 +21,7 @@ public class Service{
     private String sex;
     private String numberPhone;
 
-    private String imgProfilePicPath;
+    private List<String> imgProfilePicPath;
     private String payment;
     private String businessHours;
     private String aboutMe;
@@ -29,7 +31,7 @@ public class Service{
 
     @Ignore
     public Service(String category, String name, String item, String surname,
-                   String sex, String numberPhone, String imgProfilePicPath,
+                   String sex, String numberPhone, List<String> imgProfilePicPath,
                    String payment, String businessHours, String aboutMe) {
         this.category = category;
         this.name = name;
@@ -45,7 +47,7 @@ public class Service{
 
     @Ignore
     public Service(int idService, String category, String name, String item,
-                   String surname, String sex, String numberPhone, String imgProfilePicPath,
+                   String surname, String sex, String numberPhone, List<String> imgProfilePicPath,
                    String payment, String businessHours, String aboutMe) {
         this.idService = idService;
         this.category = category;
@@ -116,11 +118,11 @@ public class Service{
         this.numberPhone = numberPhone;
     }
 
-    public String getImgProfilePicPath() {
+    public List<String> getImgProfilePicPath() {
         return imgProfilePicPath;
     }
 
-    public void setImgProfilePicPath(String imgProfilePicPath) {
+    public void setImgProfilePicPath(List<String> imgProfilePicPath) {
         this.imgProfilePicPath = imgProfilePicPath;
     }
 

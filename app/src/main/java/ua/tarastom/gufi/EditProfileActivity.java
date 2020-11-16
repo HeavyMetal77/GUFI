@@ -3,6 +3,7 @@ package ua.tarastom.gufi;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -12,19 +13,26 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import ua.tarastom.gufi.model.Service;
 
 public class EditProfileActivity extends AppCompatActivity {
-    private final String nameCollection = "services";
+    private final String nameCollection = "services2";
     private String idServices;
     private EditText editTextEditName;
     private EditText editTextEditSurname;
@@ -47,6 +55,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private FirebaseStorage storage;
     private StorageReference storageReference;
     private int numberBucket;
+    private ImageView imageViewIconProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,32 +70,6 @@ public class EditProfileActivity extends AppCompatActivity {
             createNewService = intent.getBooleanExtra("createNewService", false);
             mainNameService = intent.getStringExtra("mainNameService");
         }
-
-        db = FirebaseFirestore.getInstance();
-        storage = FirebaseStorage.getInstance();
-        storageReference = storage.getReference();
-        if (createNewService == null) {
-            db.collection(nameCollection).document(idServices)
-                    .get()
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            service = task.getResult().toObject(Service.class);
-                            setFieldsProfile(service);
-                        }
-                    });
-        } else {
-            String item;
-            if (!createNewService) {
-                item = "Мастер";
-            } else {
-                item = "Студия";
-            }
-            service = new Service(mainNameService, "", item,
-                    "", "", "", "",
-                    "", "", "");
-            setFieldsProfile(service);
-        }
-
         imageViewLoadPortfolio_1 = findViewById(R.id.imageViewLoadPortfolio_1);
         imageViewLoadPortfolio_2 = findViewById(R.id.imageViewLoadPortfolio_2);
         imageViewLoadPortfolio_3 = findViewById(R.id.imageViewLoadPortfolio_3);
@@ -99,9 +82,40 @@ public class EditProfileActivity extends AppCompatActivity {
         imageViewLoadPortfolio_4.setOnClickListener(view -> chooseImage(view, 4));
         imageViewLoadPortfolio_5.setOnClickListener(view -> chooseImage(view, 5));
         imageViewLoadPortfolio_6.setOnClickListener(view -> chooseImage(view, 6));
+        List<ImageView> portfolio = new ArrayList<>();
+        portfolio.add(imageViewLoadPortfolio_1);
+        portfolio.add(imageViewLoadPortfolio_2);
+        portfolio.add(imageViewLoadPortfolio_3);
+        portfolio.add(imageViewLoadPortfolio_4);
+        portfolio.add(imageViewLoadPortfolio_5);
+        portfolio.add(imageViewLoadPortfolio_6);
+
+        db = FirebaseFirestore.getInstance();
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
+        if (createNewService == null) {
+            db.collection(nameCollection).document(idServices)
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            service = task.getResult().toObject(Service.class);
+                            setFieldsProfile(service, portfolio);
+                        }
+                    });
+        } else {
+            String item;
+            if (!createNewService) {
+                item = "Мастер";
+            } else {
+                item = "Студия";
+            }
+            service = new Service(mainNameService, "", item,
+                    "", "", "", new ArrayList<>(),
+                    "", "", "");
+            setFieldsProfile(service, portfolio);
+        }
+        imageViewIconProfile = findViewById(R.id.imageViewIconProfile);
     }
-
-
 
     private void chooseImage(View view, int number) {
         numberBucket = number;
@@ -122,6 +136,7 @@ public class EditProfileActivity extends AppCompatActivity {
                     .addOnSuccessListener(taskSnapshot -> {
                         progressDialog.dismiss();
                         Toast.makeText(EditProfileActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
+                        service.getImgProfilePicPath().add(filePath.toString());
                     })
                     .addOnFailureListener(e -> {
                         progressDialog.dismiss();
@@ -143,6 +158,7 @@ public class EditProfileActivity extends AppCompatActivity {
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
                 setImg(bitmap, numberBucket);
+                uploadImage();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -151,17 +167,30 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private void setImg(Bitmap bitmap, int numberBucket) {
         switch (numberBucket) {
-            case 1: imageViewLoadPortfolio_1.setImageBitmap(bitmap); break;
-            case 2: imageViewLoadPortfolio_2.setImageBitmap(bitmap); break;
-            case 3: imageViewLoadPortfolio_3.setImageBitmap(bitmap); break;
-            case 4: imageViewLoadPortfolio_4.setImageBitmap(bitmap); break;
-            case 5: imageViewLoadPortfolio_5.setImageBitmap(bitmap); break;
-            case 6: imageViewLoadPortfolio_6.setImageBitmap(bitmap); break;
-            default: break;
+            case 1:
+                imageViewLoadPortfolio_1.setImageBitmap(bitmap);
+                break;
+            case 2:
+                imageViewLoadPortfolio_2.setImageBitmap(bitmap);
+                break;
+            case 3:
+                imageViewLoadPortfolio_3.setImageBitmap(bitmap);
+                break;
+            case 4:
+                imageViewLoadPortfolio_4.setImageBitmap(bitmap);
+                break;
+            case 5:
+                imageViewLoadPortfolio_5.setImageBitmap(bitmap);
+                break;
+            case 6:
+                imageViewLoadPortfolio_6.setImageBitmap(bitmap);
+                break;
+            default:
+                break;
         }
     }
 
-    private void setFieldsProfile(Service serviceItem) {
+    private void setFieldsProfile(Service serviceItem, List<ImageView> imgPortfolio) {
         editTextEditName = findViewById(R.id.editTextEditName);
         editTextEditSurname = findViewById(R.id.editTextEditSurname);
         editTextEditNumberPhone = findViewById(R.id.editTextEditNumberPhone);
@@ -173,6 +202,39 @@ public class EditProfileActivity extends AppCompatActivity {
         editTextEditNumberPhone.setText(serviceItem.getNumberPhone());
         editTextEditSex.setText(serviceItem.getSex());
         editTextAboutMe.setText(serviceItem.getAboutMe());
+
+        List<String> list = serviceItem.getImgProfilePicPath();
+        if (!list.isEmpty()) {
+            for (int i = 0; i < imgPortfolio.size() && i < list.size(); i++) {
+                downloadImg(list.get(i), imgPortfolio.get(i));
+            }
+        }
+    }
+
+    private void downloadImg(String listImgProfilePicPath, ImageView porfolio) {
+        StorageReference islandRef = storageReference.child(listImgProfilePicPath);
+        File localFile = null;
+        try {
+            localFile = File.createTempFile("images", "jpg");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        File finalLocalFile = localFile;
+        islandRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                // Local temp file has been created
+                String filePath = finalLocalFile.getPath();
+                Bitmap bitmap = BitmapFactory.decodeFile(filePath);
+                porfolio.setImageBitmap(bitmap);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
     }
 
     public void backToProfile() {
@@ -219,6 +281,5 @@ public class EditProfileActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         backToProfile();
-        uploadImage();
     }
 }

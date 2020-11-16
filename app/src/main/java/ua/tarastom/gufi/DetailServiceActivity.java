@@ -35,7 +35,7 @@ public class DetailServiceActivity extends AppCompatActivity {
     private ImageView imageViewArrow;
     private RecyclerView recyclerview_detail_service;
     private DetailServiceAdapter adapter;
-    private final String nameCollection = "services";
+    private final String nameCollection = "services2";
     private String mainNameService;
     private String typeItem = "Мастер";
     private boolean isStudio;
@@ -64,6 +64,7 @@ public class DetailServiceActivity extends AppCompatActivity {
 //            String item = intent.getStringExtra("item");
 //            if (!item.equals("Мастер")) {
 //                typeItem = "Студия";
+        //TODO реализовать возврат в нужную категорию
 //            }
 //        }
         db = FirebaseFirestore.getInstance();
@@ -75,8 +76,6 @@ public class DetailServiceActivity extends AppCompatActivity {
             changeStudioOrMaster(services, mainNameService);
             setRecyclerview_detail_service(getMastersOrStudios(services, mainNameService, typeItem), mainNameService);
         });
-
-
     }
 
     private void setOnClickStudio(List<Service> services, String mainNameService) {
@@ -114,9 +113,7 @@ public class DetailServiceActivity extends AppCompatActivity {
     }
 
     private void enableSwipeToDeleteAndUndo() {
-
         SwipeToDeleteCallback swipeToDeleteCallback = new SwipeToDeleteCallback(this) {
-
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
                 ConstraintLayout coordinatorLayout = viewHolder.itemView.findViewById(R.id.coordinatorLayout);
@@ -174,9 +171,6 @@ public class DetailServiceActivity extends AppCompatActivity {
             startActivity(intent);
         });
         recyclerview_detail_service.setAdapter(adapter);
-//        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerview_detail_service.getContext(),
-//                layoutManager.getOrientation());
-//        recyclerview_detail_service.addItemDecoration(dividerItemDecoration);
         enableSwipeToDeleteAndUndo();
     }
 

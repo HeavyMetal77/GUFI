@@ -3,6 +3,9 @@ package ua.tarastom.gufi;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.ScrollView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -23,11 +26,13 @@ import ua.tarastom.gufi.utils.FavoriteAdapter;
 import ua.tarastom.gufi.utils.ServiceAdapter;
 
 public class ServiceCatalogActivity extends AppCompatActivity {
-    private final String nameCollection = "services";
+    private final String nameCollection = "services2";
     private RecyclerView recyclerview_all_services;
     private RecyclerView recyclerview_studios;
     private RecyclerView recyclerview_all_masters;
     private RecyclerView recyclerview_favorites;
+    private ScrollView scrollview_catalog;
+    private ProgressBar progressBar_catalog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +43,10 @@ public class ServiceCatalogActivity extends AppCompatActivity {
         recyclerview_all_masters = findViewById(R.id.recyclerview_all_masters);
         recyclerview_studios = findViewById(R.id.recyclerview_studios);
         recyclerview_all_services = findViewById(R.id.recyclerview_all_services);
+        scrollview_catalog = findViewById(R.id.scrollview_catalog);
+        progressBar_catalog = findViewById(R.id.progressBar_catalog);
+        scrollview_catalog.setVisibility(View.INVISIBLE);
+        progressBar_catalog.setVisibility(View.VISIBLE);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection(nameCollection).addSnapshotListener((value, error) -> {
@@ -51,6 +60,8 @@ public class ServiceCatalogActivity extends AppCompatActivity {
             }
             List<Category> categoryList = new ArrayList<>(categories);
             loadDataToRecyclerView(categoryList);
+            scrollview_catalog.setVisibility(View.VISIBLE);
+            progressBar_catalog.setVisibility(View.INVISIBLE);
         });
 
         BottomNavigationView bottomNavigationView = new BottomNavigationView(this);

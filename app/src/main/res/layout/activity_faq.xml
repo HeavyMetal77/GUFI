@@ -162,18 +162,17 @@
             android:paddingEnd="80dp"
             android:textSize="20sp"
             android:textStyle="normal"
-            android:textColor="@color/color_main"
+            android:textColor="@color/white"
             android:visibility="visible"
             android:textAllCaps="false"
+            android:theme="@style/Theme.MaterialComponents.Light.DialogWhenLarge"
+            android:background="@drawable/style_button"
             android:text="@string/button_start"
             android:layout_marginBottom="30dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/radio_group_faq"
-
             />
-
-
 
         <RadioGroup
             android:id="@+id/radio_group_faq"
@@ -191,6 +190,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:checked="true"
+                android:clickable="false"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
                 />
@@ -201,6 +201,7 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
+                android:clickable="false"
                 />
 
             <RadioButton
@@ -209,6 +210,7 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
+                android:clickable="false"
                 />
         </RadioGroup>
 

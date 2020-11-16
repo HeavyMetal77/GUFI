@@ -43,7 +43,6 @@ public class FaqActivity extends AppCompatActivity {
         list_faq1_description_text.add(faq3_description_text);
 
         createPages(currentPage);
-
     }
 
     private void createPages(int currentPage) {
