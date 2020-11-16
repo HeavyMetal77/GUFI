@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.IOException;
@@ -43,7 +44,9 @@ public class EditProfileActivity extends AppCompatActivity {
     private ImageView imageViewLoadPortfolio_6;
     private final int PICK_IMAGE_REQUEST = 71;
     private Uri filePath;
+    private FirebaseStorage storage;
     private StorageReference storageReference;
+    private int numberBucket;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +63,8 @@ public class EditProfileActivity extends AppCompatActivity {
         }
 
         db = FirebaseFirestore.getInstance();
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
         if (createNewService == null) {
             db.collection(nameCollection).document(idServices)
                     .get()
@@ -88,15 +93,18 @@ public class EditProfileActivity extends AppCompatActivity {
         imageViewLoadPortfolio_4 = findViewById(R.id.imageViewLoadPortfolio_4);
         imageViewLoadPortfolio_5 = findViewById(R.id.imageViewLoadPortfolio_5);
         imageViewLoadPortfolio_6 = findViewById(R.id.imageViewLoadPortfolio_6);
-        imageViewLoadPortfolio_1.setOnClickListener(view -> chooseImage());
-        imageViewLoadPortfolio_2.setOnClickListener(view -> chooseImage());
-        imageViewLoadPortfolio_3.setOnClickListener(view -> chooseImage());
-        imageViewLoadPortfolio_4.setOnClickListener(view -> uploadImage());
-        imageViewLoadPortfolio_5.setOnClickListener(view -> uploadImage());
-        imageViewLoadPortfolio_6.setOnClickListener(view -> uploadImage());
+        imageViewLoadPortfolio_1.setOnClickListener(view -> chooseImage(view, 1));
+        imageViewLoadPortfolio_2.setOnClickListener(view -> chooseImage(view, 2));
+        imageViewLoadPortfolio_3.setOnClickListener(view -> chooseImage(view, 3));
+        imageViewLoadPortfolio_4.setOnClickListener(view -> chooseImage(view, 4));
+        imageViewLoadPortfolio_5.setOnClickListener(view -> chooseImage(view, 5));
+        imageViewLoadPortfolio_6.setOnClickListener(view -> chooseImage(view, 6));
     }
 
-    private void chooseImage() {
+
+
+    private void chooseImage(View view, int number) {
+        numberBucket = number;
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -134,10 +142,22 @@ public class EditProfileActivity extends AppCompatActivity {
             filePath = data.getData();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                imageViewLoadPortfolio_2.setImageBitmap(bitmap);
+                setImg(bitmap, numberBucket);
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private void setImg(Bitmap bitmap, int numberBucket) {
+        switch (numberBucket) {
+            case 1: imageViewLoadPortfolio_1.setImageBitmap(bitmap); break;
+            case 2: imageViewLoadPortfolio_2.setImageBitmap(bitmap); break;
+            case 3: imageViewLoadPortfolio_3.setImageBitmap(bitmap); break;
+            case 4: imageViewLoadPortfolio_4.setImageBitmap(bitmap); break;
+            case 5: imageViewLoadPortfolio_5.setImageBitmap(bitmap); break;
+            case 6: imageViewLoadPortfolio_6.setImageBitmap(bitmap); break;
+            default: break;
         }
     }
 
@@ -173,7 +193,6 @@ public class EditProfileActivity extends AppCompatActivity {
             Intent intent = new Intent(EditProfileActivity.this, DetailServiceActivity.class);
             intent.putExtra("mainNameService", service.getCategory());
             startActivity(intent);
-            finish();
         } else {
             if (idServices != null) {
                 db.collection(nameCollection).document(idServices)
@@ -190,7 +209,6 @@ public class EditProfileActivity extends AppCompatActivity {
             intent.putExtra("surnameServiceItem", editSurname.toString());
             intent.putExtra("mainNameService", service.getCategory());
             startActivity(intent);
-            finish();
         }
     }
 
@@ -201,5 +219,6 @@ public class EditProfileActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         backToProfile();
+        uploadImage();
     }
 }

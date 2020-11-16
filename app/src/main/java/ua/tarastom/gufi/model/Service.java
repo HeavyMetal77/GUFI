@@ -1,6 +1,7 @@
 package ua.tarastom.gufi.model;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "services")
@@ -26,6 +27,7 @@ public class Service{
     public Service() {
     }
 
+    @Ignore
     public Service(String category, String name, String item, String surname,
                    String sex, String numberPhone, String imgProfilePicPath,
                    String payment, String businessHours, String aboutMe) {
@@ -41,6 +43,7 @@ public class Service{
         this.aboutMe = aboutMe;
     }
 
+    @Ignore
     public Service(int idService, String category, String name, String item,
                    String surname, String sex, String numberPhone, String imgProfilePicPath,
                    String payment, String businessHours, String aboutMe) {

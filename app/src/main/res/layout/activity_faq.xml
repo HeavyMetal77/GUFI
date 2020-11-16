@@ -162,11 +162,8 @@
             android:paddingEnd="80dp"
             android:textSize="20sp"
             android:textStyle="normal"
-            android:theme="@style/AppTheme"
-            android:textColor="@color/white"
-            android:background="@drawable/style_button"
-
-            android:visibility="invisible"
+            android:textColor="@color/color_main"
+            android:visibility="visible"
             android:textAllCaps="false"
             android:text="@string/button_start"
             android:layout_marginBottom="30dp"

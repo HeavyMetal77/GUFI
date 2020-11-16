@@ -5,8 +5,4 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="Button.White" parent="Theme.AppCompat">
-        <item name="colorAccent">@android:color/holo_purple</item>
-    </style>
-
 </resources>
