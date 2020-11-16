@@ -411,6 +411,7 @@
                         android:layout_marginStart="5dp"
                         android:layout_marginEnd="5dp"
                         android:layout_weight="1"
+                        android:onClick=""
                         android:background="@drawable/style_load_portfolio"
                         android:contentDescription="@string/description_photo"
                         app:srcCompat="@drawable/load_portfolio_img" />

@@ -80,17 +80,18 @@ public class ProfileActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void backToDetailService(View view) {
+    public void backToDetailService() {
         Intent intent = new Intent(ProfileActivity.this, DetailServiceActivity.class);
         intent.putExtra("mainNameService", mainNameService);
         intent.putExtra("item", service.getItem());
         startActivity(intent);
     }
+    public void backToDetailService(View view) {
+        backToDetailService();
+    }
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(ProfileActivity.this, DetailServiceActivity.class);
-        startActivity(intent);
-        finish();
+        backToDetailService();
     }
 }
