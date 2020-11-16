@@ -9,6 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +25,8 @@ public class DetailServiceAdapter extends RecyclerView.Adapter<DetailServiceAdap
     public DetailServiceAdapter(List<Service> serviceItem) {
         this.serviceItem = serviceItem;
     }
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+
 
     public interface OnProfileClickListener {
         void onProfileClick(int position);

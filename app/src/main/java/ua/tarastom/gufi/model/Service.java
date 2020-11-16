@@ -26,6 +26,21 @@ public class Service{
     public Service() {
     }
 
+    public Service(String category, String name, String item, String surname,
+                   String sex, String numberPhone, String imgProfilePicPath,
+                   String payment, String businessHours, String aboutMe) {
+        this.category = category;
+        this.name = name;
+        this.item = item;
+        this.surname = surname;
+        this.sex = sex;
+        this.numberPhone = numberPhone;
+        this.imgProfilePicPath = imgProfilePicPath;
+        this.payment = payment;
+        this.businessHours = businessHours;
+        this.aboutMe = aboutMe;
+    }
+
     public Service(int idService, String category, String name, String item,
                    String surname, String sex, String numberPhone, String imgProfilePicPath,
                    String payment, String businessHours, String aboutMe) {

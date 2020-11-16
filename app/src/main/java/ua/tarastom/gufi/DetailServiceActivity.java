@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +38,11 @@ public class DetailServiceActivity extends AppCompatActivity {
     private final String nameCollection = "services";
     private String mainNameService;
     private String typeItem = "Мастер";
+    private boolean isStudio;
+    private FirebaseFirestore db;
+    private String TAG;
+    boolean deleted = false;
+    final Service[] serviceDeleted = {null};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +66,7 @@ public class DetailServiceActivity extends AppCompatActivity {
 //                typeItem = "Студия";
 //            }
 //        }
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db = FirebaseFirestore.getInstance();
         db.collection(nameCollection).addSnapshotListener((value, error) -> {
             List<Service> services = new ArrayList<>();
             if (value != null) {
@@ -68,6 +75,7 @@ public class DetailServiceActivity extends AppCompatActivity {
             changeStudioOrMaster(services, mainNameService);
             setRecyclerview_detail_service(getMastersOrStudios(services, mainNameService, typeItem), mainNameService);
         });
+
 
     }
 
@@ -81,8 +89,10 @@ public class DetailServiceActivity extends AppCompatActivity {
             textViewLabelMasters.setTypeface(Typeface.DEFAULT);
             textViewLabelMasters.setTextSize(12);
             textViewLabelMasters.setTextColor(ContextCompat.getColor(DetailServiceActivity.this, R.color.black_light));
+            isStudio = true;
         });
     }
+
     private void setOnClickMaster(List<Service> services, String mainNameService) {
         textViewLabelMasters.setOnClickListener(view -> {
             List<Service> listStudios = getMastersOrStudios(services, mainNameService, "Мастер");
@@ -93,6 +103,7 @@ public class DetailServiceActivity extends AppCompatActivity {
             textViewLabelStudios.setTypeface(Typeface.DEFAULT);
             textViewLabelStudios.setTextSize(12);
             textViewLabelStudios.setTextColor(ContextCompat.getColor(DetailServiceActivity.this, R.color.black_light));
+            isStudio = false;
         });
     }
 
@@ -103,24 +114,48 @@ public class DetailServiceActivity extends AppCompatActivity {
     }
 
     private void enableSwipeToDeleteAndUndo() {
+
         SwipeToDeleteCallback swipeToDeleteCallback = new SwipeToDeleteCallback(this) {
+
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
                 ConstraintLayout coordinatorLayout = viewHolder.itemView.findViewById(R.id.coordinatorLayout);
                 final int position = viewHolder.getAdapterPosition();
                 final Service item = adapter.getServiceItems().get(position);
+                serviceDeleted[0] = item;
                 adapter.removeItem(position);
                 Snackbar snackbar = Snackbar.make(coordinatorLayout, "Объект удален из списка.", Snackbar.LENGTH_LONG);
+                deleted = true;
                 snackbar.setAction("ОТМЕНИТЬ УДАЛЕНИЕ", view -> {
                     adapter.restoreItem(item, position);
                     recyclerview_detail_service.scrollToPosition(position);
+                    deleted = false;
                 });
                 snackbar.setActionTextColor(Color.RED);
                 snackbar.show();
+                deleteFromDB(serviceDeleted[0], deleted);
             }
         };
         ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeToDeleteCallback);
         itemTouchhelper.attachToRecyclerView(recyclerview_detail_service);
+    }
+
+    private void deleteFromDB(Service service, boolean deleted) {
+        if (service != null && deleted) {
+            db.collection(nameCollection)
+                    .whereEqualTo("name", service.getName())
+                    .whereEqualTo("surname", service.getSurname())
+                    .whereEqualTo("category", service.getCategory())
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                db.collection(nameCollection).document(document.getId()).delete();
+                                Log.d(TAG, "deleted");
+                            }
+                        }
+                    });
+        }
     }
 
     private void setRecyclerview_detail_service(List<Service> services, String mainNameService) {
@@ -133,8 +168,6 @@ public class DetailServiceActivity extends AppCompatActivity {
         adapter.setOnProfileClickListener(position -> {
             Intent intent = new Intent(DetailServiceActivity.this, ProfileActivity.class);
             Service service = adapter.getServiceItems().get(position);
-
-
             intent.putExtra("nameServiceItem", service.getName());
             intent.putExtra("surnameServiceItem", service.getSurname());
             intent.putExtra("mainNameService", mainNameService);
@@ -157,16 +190,25 @@ public class DetailServiceActivity extends AppCompatActivity {
         return resultList;
     }
 
-    public void backToCatalog(View view) {
+    public void backToCatalog() {
         Intent intent = new Intent(DetailServiceActivity.this, ServiceCatalogActivity.class);
         startActivity(intent);
         finish();
     }
 
+    public void backToCatalog(View view) {
+        backToCatalog();
+    }
+
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        Intent intent = new Intent(DetailServiceActivity.this, ServiceCatalogActivity.class);
+        backToCatalog();
+    }
+
+    public void createNewService(View view) {
+        Intent intent = new Intent(DetailServiceActivity.this, EditProfileActivity.class);
+        intent.putExtra("createNewService", isStudio);
+        intent.putExtra("mainNameService", mainNameService);
         startActivity(intent);
         finish();
     }

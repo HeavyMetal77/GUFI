@@ -7,11 +7,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import ua.tarastom.gufi.model.Service;
@@ -26,6 +23,9 @@ public class EditProfileActivity extends AppCompatActivity {
     private EditText editTextAboutMe;
     private Service service;
     private FirebaseFirestore db;
+    private boolean isStudio;
+    private Boolean createNewService;
+    private String mainNameService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,16 +36,33 @@ public class EditProfileActivity extends AppCompatActivity {
         if (intent.hasExtra("idServices")) {
             idServices = intent.getStringExtra("idServices");
         }
+        if (intent.hasExtra("createNewService") && intent.hasExtra("mainNameService")) {
+            createNewService = intent.getBooleanExtra("createNewService", false);
+            mainNameService = intent.getStringExtra("mainNameService");
+        }
 
         db = FirebaseFirestore.getInstance();
-        db.collection(nameCollection).document(idServices)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        service = task.getResult().toObject(Service.class);
+        if (createNewService == null) {
+            db.collection(nameCollection).document(idServices)
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            service = task.getResult().toObject(Service.class);
                             setFieldsProfile(service);
-                    }
-                });
+                        }
+                    });
+        } else {
+            String item;
+            if (!createNewService) {
+                item = "Мастер";
+            } else {
+                item = "Студия";
+            }
+            service = new Service(mainNameService, "", item,
+                    "", "", "", "",
+                    "", "", "");
+            setFieldsProfile(service);
+        }
     }
 
     private void setFieldsProfile(Service serviceItem) {
@@ -69,32 +86,36 @@ public class EditProfileActivity extends AppCompatActivity {
         Editable editSex = editTextEditSex.getText();
         Editable aboutMe = editTextAboutMe.getText();
 
-        service.setName(editName.toString());
-        service.setSurname(editSurname.toString());
-        service.setNumberPhone(editNumberPhone.toString());
-        service.setSex(editSex.toString());
+        service.setName(editName.toString().trim());
+        service.setSurname(editSurname.toString().trim());
+        service.setNumberPhone(editNumberPhone.toString().trim());
+        service.setSex(editSex.toString().trim());
         service.setAboutMe(aboutMe.toString());
 
-        db.collection(nameCollection).document(idServices)
-                .set(service)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(EditProfileActivity.this, "Профиль успешно обновлен!", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(EditProfileActivity.this, "Ошибка обновления профиля!", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-        Intent intent = new Intent(EditProfileActivity.this, ProfileActivity.class);
-        intent.putExtra("nameServiceItem", editName.toString());
-        intent.putExtra("surnameServiceItem", editSurname.toString());
-        intent.putExtra("mainNameService", service.getCategory());
-        startActivity(intent);
+        if (editName.toString().isEmpty() || editNumberPhone.toString().isEmpty()) {
+            Toast.makeText(EditProfileActivity.this, "Профиль не создан! Заполните поля!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(EditProfileActivity.this, DetailServiceActivity.class);
+            intent.putExtra("mainNameService", service.getCategory());
+            startActivity(intent);
+            finish();
+        }else {
+            if (idServices != null) {
+                db.collection(nameCollection).document(idServices)
+                        .set(service)
+                        .addOnSuccessListener(aVoid -> Toast.makeText(EditProfileActivity.this, "Профиль успешно обновлен!", Toast.LENGTH_SHORT).show())
+                        .addOnFailureListener(e -> Toast.makeText(EditProfileActivity.this, "Ошибка обновления профиля!", Toast.LENGTH_SHORT).show());
+            } else {
+                db.collection("services").add(service)
+                        .addOnSuccessListener(aVoid -> Toast.makeText(EditProfileActivity.this, "Профиль успешно создан!", Toast.LENGTH_SHORT).show())
+                        .addOnFailureListener(e -> Toast.makeText(EditProfileActivity.this, "Ошибка создания профиля!", Toast.LENGTH_SHORT).show());
+            }
+            Intent intent = new Intent(EditProfileActivity.this, ProfileActivity.class);
+            intent.putExtra("nameServiceItem", editName.toString());
+            intent.putExtra("surnameServiceItem", editSurname.toString());
+            intent.putExtra("mainNameService", service.getCategory());
+            startActivity(intent);
+            finish();
+        }
     }
 
     public void backToProfile(View view) {

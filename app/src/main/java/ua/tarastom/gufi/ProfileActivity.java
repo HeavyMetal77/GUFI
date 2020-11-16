@@ -86,4 +86,11 @@ public class ProfileActivity extends AppCompatActivity {
         intent.putExtra("item", service.getItem());
         startActivity(intent);
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(ProfileActivity.this, DetailServiceActivity.class);
+        startActivity(intent);
+        finish();
+    }
 }
