@@ -13,20 +13,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.Objects;
 
 import ua.tarastom.gufi.model.Category;
-import ua.tarastom.gufi.model.Service;
 import ua.tarastom.gufi.utils.FavoriteAdapter;
 import ua.tarastom.gufi.utils.ServiceAdapter;
 
 public class ServiceCatalogActivity extends AppCompatActivity {
-    private final String nameCollection = "services2";
+    private final String nameCollectionCategory = "category";
     private RecyclerView recyclerview_all_services;
     private RecyclerView recyclerview_studios;
     private RecyclerView recyclerview_all_masters;
@@ -49,16 +48,14 @@ public class ServiceCatalogActivity extends AppCompatActivity {
         progressBar_catalog.setVisibility(View.VISIBLE);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection(nameCollection).addSnapshotListener((value, error) -> {
-            List<Service> services = new ArrayList<>();
-            Set<Category> categories = new LinkedHashSet<>();
+        db.collection(nameCollectionCategory).addSnapshotListener((value, error) -> {
+            List<Category> categoryList = new ArrayList<>();
             if (value != null) {
-                services = value.toObjects(Service.class);
+                List<DocumentSnapshot> documents = value.getDocuments();
+                for (String s : Objects.requireNonNull(documents.get(0).getData()).keySet()) {
+                    categoryList.add(new Category(s));
+                }
             }
-            for (Service service : services) {
-                categories.add(new Category(service.getCategory()));
-            }
-            List<Category> categoryList = new ArrayList<>(categories);
             loadDataToRecyclerView(categoryList);
             scrollview_catalog.setVisibility(View.VISIBLE);
             progressBar_catalog.setVisibility(View.INVISIBLE);
@@ -66,16 +63,16 @@ public class ServiceCatalogActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNavigationView = new BottomNavigationView(this);
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.menu_page_1:
-                    break;
-                case R.id.menu_page_2:
-                    break;
-                case R.id.menu_page_3:
-                    break;
-                case R.id.menu_page_4:
-                    break;
-            }
+//            switch (item.getItemId()) {
+//                case R.id.menu_page_1:
+//                    break;
+//                case R.id.menu_page_2:
+//                    break;
+//                case R.id.menu_page_3:
+//                    break;
+//                case R.id.menu_page_4:
+//                    break;
+//            }
             return false;
         });
     }
