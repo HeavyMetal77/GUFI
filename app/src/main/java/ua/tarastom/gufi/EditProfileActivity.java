@@ -13,20 +13,16 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import ua.tarastom.gufi.model.Service;
@@ -135,8 +131,9 @@ public class EditProfileActivity extends AppCompatActivity {
             ref.putFile(filePath)
                     .addOnSuccessListener(taskSnapshot -> {
                         progressDialog.dismiss();
+                        String path = Objects.requireNonNull(taskSnapshot.getMetadata()).getPath();
+                        service.getImgProfilePicPath().add(path);
                         Toast.makeText(EditProfileActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
-                        service.getImgProfilePicPath().add(filePath.toString());
                     })
                     .addOnFailureListener(e -> {
                         progressDialog.dismiss();
@@ -211,30 +208,13 @@ public class EditProfileActivity extends AppCompatActivity {
         }
     }
 
-    private void downloadImg(String listImgProfilePicPath, ImageView porfolio) {
-        StorageReference islandRef = storageReference.child(listImgProfilePicPath);
-        File localFile = null;
-        try {
-            localFile = File.createTempFile("images", "jpg");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        File finalLocalFile = localFile;
-        islandRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                // Local temp file has been created
-                String filePath = finalLocalFile.getPath();
-                Bitmap bitmap = BitmapFactory.decodeFile(filePath);
-                porfolio.setImageBitmap(bitmap);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle any errors
-            }
-        });
+    private void downloadImg(String imgProfilePicPath, ImageView portfolio) {
+        StorageReference referenseLcl = FirebaseStorage.getInstance().getReference(imgProfilePicPath);
+        final long ONE_MEGABYTE = 1024 * 1024;
+        referenseLcl.getBytes(ONE_MEGABYTE).addOnSuccessListener(bytesPrm -> {
+            Bitmap bmp = BitmapFactory.decodeByteArray(bytesPrm, 0, bytesPrm.length);
+            portfolio.setImageBitmap(bmp);
+        }).addOnFailureListener(exception -> portfolio.setImageResource(R.mipmap.ic_launcher));
     }
 
     public void backToProfile() {

@@ -100,7 +100,19 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <ProgressBar
+        android:id="@+id/progressBarEditProfile"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guideline_detail_profile"/>
+
+
     <ScrollView
+        android:id="@+id/scrollview_edit_profile"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="103dp"
@@ -411,7 +423,6 @@
                         android:layout_marginStart="5dp"
                         android:layout_marginEnd="5dp"
                         android:layout_weight="1"
-                        android:onClick=""
                         android:background="@drawable/style_load_portfolio"
                         android:contentDescription="@string/description_photo"
                         app:srcCompat="@drawable/load_portfolio_img" />

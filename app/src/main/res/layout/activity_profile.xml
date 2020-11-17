@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.18" />
+        app:layout_constraintGuide_percent="0.19" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_catalog_top"
@@ -61,6 +61,17 @@
             app:layout_constraintStart_toEndOf="@+id/imageViewArrow"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <View
+            android:id="@+id/line_19"
+            android:layout_width="255dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="56dp"
+            android:layout_marginStart="5dp"
+            android:background="@drawable/line_19"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
         <ImageView
             android:id="@+id/imageViewIconProfile"
             android:layout_width="92dp"
@@ -82,6 +93,8 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/mask_photo" />
+
+
 
         <TextView
             android:id="@+id/textViewNumberPhoneProfile"
