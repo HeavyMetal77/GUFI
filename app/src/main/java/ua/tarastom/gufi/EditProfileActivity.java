@@ -46,6 +46,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private ImageView imageViewLoadPortfolio_4;
     private ImageView imageViewLoadPortfolio_5;
     private ImageView imageViewLoadPortfolio_6;
+    private ImageView imageViewPhone;
     private final int PICK_IMAGE_REQUEST = 71;
     private Uri filePath;
     private FirebaseStorage storage;
@@ -66,6 +67,7 @@ public class EditProfileActivity extends AppCompatActivity {
             createNewService = intent.getBooleanExtra("createNewService", false);
             mainNameService = intent.getStringExtra("mainNameService");
         }
+        imageViewPhone = findViewById(R.id.imageViewPhone);
         imageViewLoadPortfolio_1 = findViewById(R.id.imageViewLoadPortfolio_1);
         imageViewLoadPortfolio_2 = findViewById(R.id.imageViewLoadPortfolio_2);
         imageViewLoadPortfolio_3 = findViewById(R.id.imageViewLoadPortfolio_3);
@@ -94,8 +96,8 @@ public class EditProfileActivity extends AppCompatActivity {
                     .get()
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
-                            service = task.getResult().toObject(Service.class);
-                            setFieldsProfile(service, portfolio);
+                            service = Objects.requireNonNull(task.getResult()).toObject(Service.class);
+                            setFieldsProfile(Objects.requireNonNull(service), portfolio);
                         }
                     });
         } else {
@@ -204,6 +206,9 @@ public class EditProfileActivity extends AppCompatActivity {
         if (!list.isEmpty()) {
             for (int i = 0; i < imgPortfolio.size() && i < list.size(); i++) {
                 downloadImg(list.get(i), imgPortfolio.get(i));
+                if (i == 0) {
+                    downloadImg(list.get(i), imageViewIconProfile);
+                }
             }
         }
     }

@@ -1,5 +1,7 @@
 package ua.tarastom.gufi.utils;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,7 +80,24 @@ public class DetailServiceAdapter extends RecyclerView.Adapter<DetailServiceAdap
         holder.numberPhoneMaster.setText(service.getNumberPhone());
         holder.payment.setText(service.getPayment());
         holder.businessHours.setText(service.getBusinessHours());
-//        holder.person_photo.setText(service.getNumber());
+        
+        if (!service.getImgProfilePicPath().isEmpty()) {
+            StorageReference referenseLcl = FirebaseStorage.getInstance().getReference(service.getImgProfilePicPath().get(0));
+            final long ONE_MEGABYTE = 1024 * 1024;
+            referenseLcl.getBytes(ONE_MEGABYTE).addOnSuccessListener(bytesPrm -> {
+                Bitmap bmp = BitmapFactory.decodeByteArray(bytesPrm, 0, bytesPrm.length);
+                holder.person_photo.setImageBitmap(bmp);
+            }).addOnFailureListener(exception -> holder.person_photo.setImageResource(R.mipmap.ic_launcher));
+        }
+    }
+
+    private void downloadImg(String imgProfilePicPath, ImageView iconProfile) {
+        StorageReference referenseLcl = FirebaseStorage.getInstance().getReference(imgProfilePicPath);
+        final long ONE_MEGABYTE = 1024 * 1024;
+        referenseLcl.getBytes(ONE_MEGABYTE).addOnSuccessListener(bytesPrm -> {
+            Bitmap bmp = BitmapFactory.decodeByteArray(bytesPrm, 0, bytesPrm.length);
+            iconProfile.setImageBitmap(bmp);
+        }).addOnFailureListener(exception -> iconProfile.setImageResource(R.mipmap.ic_launcher));
     }
 
     @Override
