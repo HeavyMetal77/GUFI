@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -43,12 +44,20 @@ public class DetailServiceActivity extends AppCompatActivity {
     private String TAG;
     boolean deleted = false;
     final Service[] serviceDeleted = {null};
+    private ConstraintLayout constraint_layout_detail_catalog;
+    private ProgressBar progressBarDetailService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_service);
         mainNameService = getIntent().getStringExtra("mainNameService");
+
+        constraint_layout_detail_catalog = findViewById(R.id.constraint_layout_detail_catalog);
+        progressBarDetailService = findViewById(R.id.progressBarDetailService);
+        constraint_layout_detail_catalog.setVisibility(View.INVISIBLE);
+        progressBarDetailService.setVisibility(View.VISIBLE);
+
         textViewHeaderSubCatalog = findViewById(R.id.textViewHeaderSubCatalog);
         textViewLabelStudios = findViewById(R.id.textViewLabelStudios);
         textViewLabelMasters = findViewById(R.id.textViewLabelMasters);
@@ -75,6 +84,8 @@ public class DetailServiceActivity extends AppCompatActivity {
             }
             changeStudioOrMaster(services, mainNameService);
             setRecyclerview_detail_service(getMastersOrStudios(services, mainNameService, typeItem), mainNameService);
+            constraint_layout_detail_catalog.setVisibility(View.VISIBLE);
+            progressBarDetailService.setVisibility(View.INVISIBLE);
         });
     }
 
