@@ -165,7 +165,7 @@
             android:textColor="@color/white"
             android:visibility="visible"
             android:textAllCaps="false"
-            android:theme="@style/Theme.MaterialComponents.Light.DialogWhenLarge"
+            android:theme="@style/Theme.ButtonFaq"
             android:background="@drawable/style_button"
             android:text="@string/button_start"
             android:layout_marginBottom="30dp"

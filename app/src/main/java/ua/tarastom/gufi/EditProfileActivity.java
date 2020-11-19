@@ -46,10 +46,8 @@ public class EditProfileActivity extends AppCompatActivity {
     private ImageView imageViewLoadPortfolio_4;
     private ImageView imageViewLoadPortfolio_5;
     private ImageView imageViewLoadPortfolio_6;
-    private ImageView imageViewPhone;
     private final int PICK_IMAGE_REQUEST = 71;
     private Uri filePath;
-    private FirebaseStorage storage;
     private StorageReference storageReference;
     private int numberBucket;
     private ImageView imageViewIconProfile;
@@ -67,7 +65,7 @@ public class EditProfileActivity extends AppCompatActivity {
             createNewService = intent.getBooleanExtra("createNewService", false);
             mainNameService = intent.getStringExtra("mainNameService");
         }
-        imageViewPhone = findViewById(R.id.imageViewPhone);
+        ImageView imageViewPhone = findViewById(R.id.imageViewPhone);
         imageViewLoadPortfolio_1 = findViewById(R.id.imageViewLoadPortfolio_1);
         imageViewLoadPortfolio_2 = findViewById(R.id.imageViewLoadPortfolio_2);
         imageViewLoadPortfolio_3 = findViewById(R.id.imageViewLoadPortfolio_3);
@@ -89,7 +87,7 @@ public class EditProfileActivity extends AppCompatActivity {
         portfolio.add(imageViewLoadPortfolio_6);
 
         db = FirebaseFirestore.getInstance();
-        storage = FirebaseStorage.getInstance();
+        FirebaseStorage storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
         if (createNewService == null) {
             db.collection(nameCollection).document(idServices)

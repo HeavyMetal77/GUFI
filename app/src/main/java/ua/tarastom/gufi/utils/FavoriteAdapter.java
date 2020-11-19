@@ -98,10 +98,6 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Servic
         return serviceItemsFavorites.size();
     }
 
-    public int getScreenWidth() {
-        return screenWidth;
-    }
-
     public void setScreenWidth(int screenWidth) {
         this.screenWidth = screenWidth;
     }

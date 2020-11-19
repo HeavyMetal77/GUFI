@@ -108,8 +108,6 @@ public class FaqActivity extends AppCompatActivity {
         });
     }
 
-
-
     private void fill(View page, int numberPage, List<String[]> list_faq1_description_text) {
         TextView textViewDescriptionFaq1 = page.findViewById(R.id.textViewDescriptionFaq1);
         TextView textViewDescriptionFaq2 = page.findViewById(R.id.textViewDescriptionFaq2);

@@ -27,7 +27,6 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ServiceV
         serviceItems = new ArrayList<>();
     }
 
-
     public void setServiceItems(List<Category> serviceItems) {
         this.serviceItems = serviceItems;
         notifyDataSetChanged();
@@ -83,15 +82,11 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ServiceV
         return serviceItems.size();
     }
 
-    public int getScreenWidth() {
-        return screenWidth;
-    }
-
     public void setScreenWidth(int screenWidth) {
         this.screenWidth = screenWidth;
     }
 
-    class ServiceViewHolder extends RecyclerView.ViewHolder {
+    static class ServiceViewHolder extends RecyclerView.ViewHolder {
         private final Button button_service;
         private final ImageView imageViewIconHeart;
 
@@ -99,7 +94,6 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ServiceV
             super(itemView);
             button_service = itemView.findViewById(R.id.button_service);
             imageViewIconHeart = itemView.findViewById(R.id.imageViewIconHeart);
-
         }
     }
 }

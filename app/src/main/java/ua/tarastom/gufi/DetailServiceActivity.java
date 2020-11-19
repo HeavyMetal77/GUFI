@@ -24,6 +24,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import ua.tarastom.gufi.model.Service;
 import ua.tarastom.gufi.utils.DetailServiceAdapter;
@@ -33,12 +34,11 @@ public class DetailServiceActivity extends AppCompatActivity {
     private TextView textViewHeaderSubCatalog;
     private TextView textViewLabelStudios;
     private TextView textViewLabelMasters;
-    private ImageView imageViewArrow;
     private RecyclerView recyclerview_detail_service;
     private DetailServiceAdapter adapter;
     private final String nameCollection = "services2";
     private String mainNameService;
-    private String typeItem = "Мастер";
+    private final String typeItem = "Мастер";
     private boolean isStudio;
     private FirebaseFirestore db;
     private String TAG;
@@ -61,7 +61,7 @@ public class DetailServiceActivity extends AppCompatActivity {
         textViewHeaderSubCatalog = findViewById(R.id.textViewHeaderSubCatalog);
         textViewLabelStudios = findViewById(R.id.textViewLabelStudios);
         textViewLabelMasters = findViewById(R.id.textViewLabelMasters);
-        imageViewArrow = findViewById(R.id.imageViewArrow);
+        ImageView imageViewArrow = findViewById(R.id.imageViewArrow);
         imageViewArrow.setOnClickListener(view -> {
             Intent intent = new Intent(DetailServiceActivity.this, ServiceCatalogActivity.class);
             startActivity(intent);
@@ -157,7 +157,7 @@ public class DetailServiceActivity extends AppCompatActivity {
                     .get()
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
+                            for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
                                 db.collection(nameCollection).document(document.getId()).delete();
                                 Log.d(TAG, "deleted");
                             }
